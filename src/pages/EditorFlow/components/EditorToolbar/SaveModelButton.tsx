@@ -121,7 +121,7 @@ class Save extends React.Component {
                     overlayClassName={styles.tooltip}
                 >
                     <div onClick={this.showModal} style={{ ['marginLeft']: 16}}>
-                        <SaveOutlined style={{ 'color': 'rgba(255, 255, 255, 0.9)', 'cursor': 'pointer'}}/>
+                        <SaveOutlined style={{ 'cursor': 'pointer'}}/>
                     </div>
                 </Tooltip>
                 {/* <div style={{ padding: 8 }}>

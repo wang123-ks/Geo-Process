@@ -131,12 +131,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => history.push('/')}
       // menuHeaderRender=
-      headerRender={() => (
-        <div style={{ padding: 30 }}>
-          <img src={x_logo}/>
-          <strong style={{ marginLeft: 12,fontSize: 19 }}>MapGIS分布式地理处理流程引擎</strong>
-        </div>
-      )}
+      // headerRender={() => (
+      //   <div style={{ padding: 5 }}>
+      //     <img src={x_logo}/>
+      //     <strong style={{ marginLeft: 12,fontSize: 19 }}>MapGIS分布式地理处理流程引擎</strong>
+      //   </div>
+      // )}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
           menuItemProps.isUrl ||
@@ -170,7 +170,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return null;
       }}
       menuDataRender={menuDataRender}
-      rightContentRender={() => <RightContent />}
+      headerContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
         menuDataRef.current = menuData || [];
         return menuData || [];

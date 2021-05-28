@@ -201,7 +201,7 @@ class Execute extends React.Component {
                     overlayClassName={styles.tooltip}
                 >
                     <div onClick={this.showModal} style={{ ['marginLeft']: 20 }}>
-                        <PlayCircleOutlined style={{ 'color': 'rgba(255, 255, 255, 0.9)', 'cursor': 'pointer'}}/>
+                        <PlayCircleOutlined style={{ 'cursor': 'pointer'}}/>
                     </div>
                 </Tooltip>
                 <Modal title="是否执行" visible={this.state.isModalVisible} onOk={this.handleOk} onCancel={this.handleCancel}>

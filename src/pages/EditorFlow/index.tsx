@@ -97,35 +97,34 @@ class FlowTest extends React.Component {
 
   render() {
     return (
-      <PageContainer
-        // content={formatMessage({
-        //   // id: 'editorflow.description',
-        //   defaultMessage: '',
-        // })}
-      >
+      // <PageContainer
+      //   // content={formatMessage({
+      //   //   // id: 'editorflow.description',
+      //   //   defaultMessage: '',
+      //   // })}
+      // >
         <GGEditor className={styles.editor} >
           {/* <Row className={styles.editorHd}>
             <Col span={24}>
               <FlowToolbar />
             </Col>
           </Row> */}
-          <Row className={styles.editorBd} style={{backgroundColor:'#303030'}}>
-            <Col span={4} className={styles.editorSidebar} style={{backgroundColor:'#363636'}}>
+          <Row className={styles.editorBd}>
+            <Col span={4} className={styles.editorSidebar}>
               <FlowItemPanel />
             </Col>
             <Col span={16} className={styles.editorContent} >
-              <Row className={styles.editorHd} style={{backgroundColor:'#363636'}}>
+              <Row className={styles.editorHd}>
                 <Col>
                   <FlowToolbar />
                 </Col>
               </Row>
               <Flow
                 className={styles.flow}
-                style={{backgroundColor:'#303030'}}
                 data={mockFlowData}
                 onNodeClick={(e) => {this.handleNodeSelect(e)}}/>
             </Col>
-            <Col span={4} className={styles.editorSidebar} style={{backgroundColor:'#363636'}}>
+            <Col span={4} className={styles.editorSidebar} >
               <Tabs className={styles.tab_main} type="card" centered activeKey={this.props.tabsActive} onTabClick={(params)=>this.props.modifyTabsActive(params)}>
                 <TabPane tab="参数设置" key="paramsInput">
                   <FlowDetailPanel />
@@ -154,7 +153,7 @@ class FlowTest extends React.Component {
           </Row>
           <FlowContextMenu />
         </GGEditor>
-      </PageContainer>
+      // </PageContainer>
     )
   }
 }

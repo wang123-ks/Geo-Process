@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Input, Select, Form } from 'antd';
-import { TagsTwoTone, TagsFilled } from '@ant-design/icons';
+import { TagsTwoTone } from '@ant-design/icons';
 import { withPropsAPI } from 'gg-editor';
 import { connect } from 'dva'
 import { render } from 'react-dom';
@@ -172,7 +172,7 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
     return (
       <span>
         {/* <TagsTwoTone /> */}
-        <TagsFilled />
+        <TagsTwoTone />
         <span style={{ ['paddingLeft']: 5}}>{ label }</span>
       </span>
     );
