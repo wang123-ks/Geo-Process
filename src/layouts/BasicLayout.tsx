@@ -19,6 +19,8 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import type { ConnectState } from '@/models/connect';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
+import x_logo from '../assets/mapgis_x_logo.png';
+import { BackgroundColor } from 'chalk';
 
 const noMatch = (
   <Result
@@ -128,6 +130,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       {...settings}
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => history.push('/')}
+      // menuHeaderRender=
+      headerRender={() => (
+        <div style={{ padding: 30 }}>
+          <img src={x_logo}/>
+          <strong style={{ marginLeft: 12,fontSize: 19 }}>MapGIS分布式地理处理流程引擎</strong>
+        </div>
+      )}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
           menuItemProps.isUrl ||
@@ -138,13 +147,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         }
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
-      breadcrumbRender={(routers = []) => [
-        {
-          path: '/',
-          breadcrumbName: formatMessage({ id: 'menu.home' }),
-        },
-        ...routers,
-      ]}
+      // breadcrumbRender={(routers = []) => [
+      //   {
+      //     path: '/',
+      //     breadcrumbName: formatMessage({ id: 'menu.home' }),
+      //   },
+      //   ...routers,
+      // ]}
       itemRender={(route, params, routes, paths) => {
         const first = routes.indexOf(route) === 0;
         return first ? (
@@ -155,7 +164,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       footerRender={() => {
         if (settings.footerRender || settings.footerRender === undefined) {
-          return defaultFooterDom;
+          // return defaultFooterDom;
+          return null;
         }
         return null;
       }}
@@ -165,10 +175,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         menuDataRef.current = menuData || [];
         return menuData || [];
       }}
-      waterMarkProps={{
-        content: 'Ant Design Pro',
-        fontColor: 'rgba(24,144,255,0.15)',
-      }}
+      // waterMarkProps={{
+      //   content: 'Ant Design Pro',
+      //   fontColor: 'rgba(24,144,255,0.15)',
+      // }}
     >
       <Authorized authority={authorized!.authority} noMatch={noMatch}>
         {children}

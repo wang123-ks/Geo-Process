@@ -56,7 +56,7 @@ export default [
                 component: './TableList',
               },
               {
-                name: '流程编辑器',
+                name: ' ',
                 icon: 'smile',
                 path: '/editorflow',
                 component: './EditorFlow',
