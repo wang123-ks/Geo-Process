@@ -7,7 +7,7 @@ import CollectionCreateForm from './CollectionCreateForm';
 import styles from './index.less'
 
 message.config({
-    top: 55,
+    top: 15,
     duration: 3,
 });
 // const CollectionCreateForm = Form.create({ name: 'save_template' })(

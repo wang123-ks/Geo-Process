@@ -1,65 +1,22 @@
-# datastore-geoscene
+<center><font size=8>datastore-geoscene</font></center>
 
-基于 ggeditor 的 GP 搭建工具。
+基于 [GGEditor](https://gitee.com/gaoli.gl/gg-editor/#https://github.com/facebook/react)  的 GP 搭建工具。
 
-# 涉及框架
 
-待补充。。。。。。
+## 使用框架介绍
 
-# Ant Design Pro
+本项目基于 Ant Design Pro 框架搭建，使用的开源工具为GGEditor（基于 G6 和 React 的可视化图编辑器）。
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+## 示例
 
-## Environment Prepare
+```javascript
+# 安装依赖
+$ npm install
 
-Install `node_modules`:
+# 运行项目
+$ npm start
 
-```bash
-npm install
+# 编译项目
+$ npm run build
 ```
 
-or
-
-```bash
-yarn
-```
-
-## Provided Scripts
-
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
-
-Scripts provided in `package.json`. It's safe to modify or add additional script:
-
-### Start project
-
-```bash
-npm start
-```
-
-### Build project
-
-```bash
-npm run build
-```
-
-### Check code style
-
-```bash
-npm run lint
-```
-
-You can also use script to auto fix some lint error:
-
-```bash
-npm run lint:fix
-```
-
-### Test code
-
-```bash
-npm test
-```
-
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
