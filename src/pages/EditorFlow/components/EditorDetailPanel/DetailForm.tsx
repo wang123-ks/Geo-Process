@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Input, Select, Form } from 'antd';
 import { TagsTwoTone } from '@ant-design/icons';
 import { withPropsAPI } from 'gg-editor';
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { render } from 'react-dom';
 import styles from './index.less';
 
@@ -24,20 +24,20 @@ const inlineFormItemLayout = {
     sm: { span: 16 },
   },
 };
-const onSearch = value => console.warn(value);
+const onSearch = (value) => console.warn(value);
 
-const namespace1 = 'paramsList'
-const namespace2 = 'paramsInput'
+const namespace1 = 'paramsList';
+const namespace2 = 'paramsInput';
 
 const mapStateToProps = (state: any) => {
-  const paramsList = state[namespace1]
-  const paramsInput = state[namespace2]
+  const paramsList = state[namespace1];
+  const paramsInput = state[namespace2];
   // console.warn('拿到第几次了', paramsList)
   return {
     paramsList,
-    paramsInput
-  }
-}
+    paramsInput,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -45,16 +45,16 @@ const mapDispatchToProps = (dispatch) => {
       let newParams = {
         key,
         name,
-        value
-      }
+        value,
+      };
       const action = {
         type: `${namespace2}/changeParamsInput`,
         payload: newParams,
       };
-      dispatch(action)
+      dispatch(action);
     },
-  }
-}
+  };
+};
 
 type DetailFormProps = {
   type: string;
@@ -70,10 +70,10 @@ type DetailFormState = {
 @connect(mapStateToProps, mapDispatchToProps)
 class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
   public state: DetailFormState = {
-    showStyleModal: false,  // 需要传给vue组件的值，控制对话框的打开与否
+    showStyleModal: false, // 需要传给vue组件的值，控制对话框的打开与否
     onlyFolder: false,
-    currentParam: ''
-  }
+    currentParam: '',
+  };
 
   get item() {
     const { propsAPI } = this.props;
@@ -81,14 +81,15 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
     return propsAPI.getSelected()[0];
   }
 
-  handleClose = () => { // 需要传给vue组件的函数，用来控制对话框的关闭
+  handleClose = () => {
+    // 需要传给vue组件的函数，用来控制对话框的关闭
     this.setState({
-      showStyleModal: false
-    })
+      showStyleModal: false,
+    });
   };
 
   handleNewDocument = (doc) => {
-    console.warn('打印最新版doc', doc)
+    console.warn('打印最新版doc', doc);
   };
 
   handleFieldChange = (values: any) => {
@@ -121,9 +122,9 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
   // };
 
   renderNodeDetail = () => {
-    let nodeInfo = this.item.getModel()
+    let nodeInfo = this.item.getModel();
     const { label } = this.item.getModel();
-    console.warn('输出node信息', nodeInfo)
+    console.warn('输出node信息', nodeInfo);
     return (
       <Form initialValues={{ label }}>
         <Item label="Label" name="label" {...inlineFormItemLayout}>
@@ -168,12 +169,12 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
     // console.warn('当前item', this.item.getModel())
     // const { label = '', shape = 'flow-smooth' } = this.item.getModel();
     const { label = '新建分组' } = this.item.getModel();
-    console.warn('当前item', this.item.getModel())
+    console.warn('当前item', this.item.getModel());
     return (
       <span>
         {/* <TagsTwoTone /> */}
         <TagsTwoTone />
-        <span style={{ ['paddingLeft']: 5}}>{ label }</span>
+        <span style={{ ['paddingLeft']: 5 }}>{label}</span>
       </span>
     );
   };
@@ -186,26 +187,26 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
         {/* { key === 'select_cd_data' && this.} */}
         {key}
       </div>
-    )
+    );
   };
 
   handleSearch = (item) => {
     // console.warn('当前direction', item.direction)
     this.setState({
       currentParam: item.name,
-    })
+    });
     if (item.direction.indexOf('IN') >= 0) {
       this.setState({
         showStyleModal: true,
         onlyFolder: false,
-      })
+      });
     } else if (item.direction.indexOf('OUT') >= 0) {
       this.setState({
         showStyleModal: true,
         onlyFolder: true,
-      })
+      });
     }
-  }
+  };
   // static getDerivedStateFromProps(nextProps, prevState) {
   //   // 不再提供 prevProps 的获取方式
   //   console.warn('看有没有nextProps', nextProps)
@@ -243,48 +244,73 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
 
     return (
       <div className={styles.card_main}>
-        <Card type="inner" size="small" title={this.renderCardTitle()} bordered={false} >
-          <div style={{height: 570, "overflow":'auto',"overflowX":'hidden'}}>
+        <Card type="inner" size="small" title={this.renderCardTitle()} bordered={false}>
+          <div style={{ height: 570, overflow: 'auto', overflowX: 'hidden' }}>
             {/* {type === 'node' && this.renderNodeDetail()} */}
             {/* {type === 'edge' && this.renderEdgeDetail()} */}
             {type === 'group' && this.renderGroupDetail()}
-            {this.props.paramsList.isShow && key && this.props.paramsList.data[key] &&
+            {this.props.paramsList.isShow &&
+              key &&
+              this.props.paramsList.data[key] &&
               this.props.paramsList.data[key].map((item, index) => {
                 return (
                   <div key={index}>
                     {item.need && <span> * </span>}
                     {item.index}、{item.briefDescp}：
-                    {item.dataType === 'ENUM' && <div>
-                      <Select value={this.props.paramsInput.data[key][item.name] || ''} style={{ width: 230 }} onChange={(value) =>{this.props.handleInputChange(key, item.name, value)}}>
-                        {item.defauleValue !== '' && item.defauleValue.split(',').map((ele, indexA) => {
-                          return (
-                            <Option key={indexA} value={ele}>{ele}</Option>
-                          )
-                        })}
-                      </Select>
-                    </div>}
-                    {item.dataType === 'GEOMETRY' && <Search style={{ width: 230 }}
-                      value={this.props.paramsInput.data[key][item.name] || ''}
-                      onSearch={() => {this.handleSearch(item)}} enterButton />
-                    }
-                    {item.dataType !== 'ENUM' && item.dataType !== 'GEOMETRY' && <Input style={{ width: 230 }}
-                      value={this.props.paramsInput.data[key][item.name] || ''}
-                      onChange={(e) =>{this.props.handleInputChange(key, item.name, e.target.value)}}
-                    />}
+                    {item.dataType === 'ENUM' && (
+                      <div>
+                        <Select
+                          value={this.props.paramsInput.data[key][item.name] || ''}
+                          style={{ width: 230 }}
+                          onChange={(value) => {
+                            this.props.handleInputChange(key, item.name, value);
+                          }}
+                        >
+                          {item.defauleValue !== '' &&
+                            item.defauleValue.split(',').map((ele, indexA) => {
+                              return (
+                                <Option key={indexA} value={ele}>
+                                  {ele}
+                                </Option>
+                              );
+                            })}
+                        </Select>
+                      </div>
+                    )}
+                    {item.dataType === 'GEOMETRY' && (
+                      <Search
+                        style={{ width: 230 }}
+                        value={this.props.paramsInput.data[key][item.name] || ''}
+                        onSearch={() => {
+                          this.handleSearch(item);
+                        }}
+                        enterButton
+                      />
+                    )}
+                    {item.dataType !== 'ENUM' && item.dataType !== 'GEOMETRY' && (
+                      <Input
+                        style={{ width: 230 }}
+                        value={this.props.paramsInput.data[key][item.name] || ''}
+                        onChange={(e) => {
+                          this.props.handleInputChange(key, item.name, e.target.value);
+                        }}
+                      />
+                    )}
                   </div>
-                )
-              })
-            }
-            {!this.props.paramsList.isShow || !this.props.paramsList.data[key] && type !== 'group' && 
+                );
+              })}
+            {/* {!this.props.paramsList.isShow || !this.props.paramsList.data[key] && type !== 'group' && 
               <p>暂无参数</p>
-            }
+            } */}
           </div>
         </Card>
         <StyleModal
           showStyleModal={this.state.showStyleModal}
           onlyFolder={this.state.onlyFolder}
           handleClose={this.handleClose}
-          handleNewDocument={(e) =>{this.props.handleInputChange(key, this.state.currentParam, e.url)}} // 参数为载荷形式
+          handleNewDocument={(e) => {
+            this.props.handleInputChange(key, this.state.currentParam, e.url);
+          }} // 参数为载荷形式
         />
         {/* <this.RenderParams/> */}
       </div>

@@ -3,38 +3,48 @@ import { Item, ItemPanel } from 'gg-editor';
 import { Card, Tree } from 'antd';
 import React from 'react';
 import styles from './index.less';
-import { HomeTwoTone, FundTwoTone, PictureTwoTone, FileWordTwoTone, BulbTwoTone, FolderTwoTone, FolderOpenTwoTone, TagsTwoTone  } from '@ant-design/icons';
+import {
+  HomeTwoTone,
+  FundTwoTone,
+  PictureTwoTone,
+  FileWordTwoTone,
+  BulbTwoTone,
+  FolderTwoTone,
+  FolderOpenTwoTone,
+  TagsTwoTone,
+} from '@ant-design/icons';
 // {/* <FolderTwoTone /> */}
-{/* <FolderOpenTwoTone /> */}
+{
+  /* <FolderOpenTwoTone /> */
+}
 
 const { TreeNode } = Tree;
 
 const FlowItemPanel = () => {
-
-  const getItem = (shape:string, label:string, key_a:string) => {
-    let curSize = ''
-    let color = ''
+  const getItem = (shape: string, label: string, key_a: string) => {
+    let curSize = '';
+    let color = '';
     switch (shape) {
       case 'flow-circle':
         curSize = '66*66';
-        color= '#0573E9';
+        color = '#0573E9';
         break;
       case 'flow-rect':
         curSize = '80*48';
-        color= '#E76F00';
+        color = '#E76F00';
         break;
       case 'flow-rhombus':
         curSize = '80*72';
-        color= '#EC3D3D';
+        color = '#EC3D3D';
         break;
       case 'flow-capsule':
         curSize = '100*48';
-        color= '#E76F00';
+        color = '#E76F00';
         break;
       default:
         curSize = '80*48';
-        color= '#E76F00';
-    };
+        color = '#E76F00';
+    }
     return (
       <Item
         type="node"
@@ -48,7 +58,7 @@ const FlowItemPanel = () => {
       >
         <span className={styles['panel-type-icon']}>{label}</span>
       </Item>
-    )
+    );
   };
 
   const treeData = [
@@ -165,8 +175,13 @@ const FlowItemPanel = () => {
               key: '1-0-1',
               switcherIcon: <TagsTwoTone />,
             },
+            // {
+            //   title: '输出矢量数据',
+            //   key: '1-0-2',
+            //   switcherIcon: <TagsTwoTone />,
+            // },
             {
-              title: '输出矢量数据',
+              title: getItem('flow-capsule', '输出矢量数据', 'copy_cd_data'),
               key: '1-0-2',
               switcherIcon: <TagsTwoTone />,
             },
@@ -180,7 +195,7 @@ const FlowItemPanel = () => {
               key: '1-0-4',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据处理',
@@ -242,7 +257,7 @@ const FlowItemPanel = () => {
             //   key: '1-1-10',
             //   switcherIcon: <TagsTwoTone />,
             // },
-          ]
+          ],
         },
         {
           title: '数据汇总',
@@ -264,7 +279,7 @@ const FlowItemPanel = () => {
               key: '1-2-2',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '空间分析',
@@ -272,21 +287,31 @@ const FlowItemPanel = () => {
           icon: ({ expanded }) => (expanded ? <FolderOpenTwoTone /> : <FolderTwoTone />),
           children: [
             {
-              title: '创建缓冲区',
+              title: getItem('flow-capsule', '创建缓冲区', 'copy_cd_data'),
               key: '1-3-0',
               switcherIcon: <TagsTwoTone />,
             },
             {
-              title: '叠加分析',
+              title: getItem('flow-capsule', '叠加分析', 'copy_cd_data'),
               key: '1-3-1',
               switcherIcon: <TagsTwoTone />,
             },
+            // {
+            //   title: '创建缓冲区',
+            //   key: '1-3-0',
+            //   switcherIcon: <TagsTwoTone />,
+            // },
+            // {
+            //   title: '叠加分析',
+            //   key: '1-3-1',
+            //   switcherIcon: <TagsTwoTone />,
+            // },
             {
               title: '裁剪图层',
               key: '1-3-2',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '模式分析',
@@ -308,9 +333,9 @@ const FlowItemPanel = () => {
               key: '1-4-2',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
     {
       title: '影像大数据分析算子',
@@ -327,7 +352,7 @@ const FlowItemPanel = () => {
               key: '2-0-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '影像管理',
@@ -339,7 +364,7 @@ const FlowItemPanel = () => {
               key: '2-1-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '栅格处理',
@@ -351,7 +376,7 @@ const FlowItemPanel = () => {
               key: '2-2-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '影响汇总',
@@ -363,7 +388,7 @@ const FlowItemPanel = () => {
               key: '2-3-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '模式分析',
@@ -375,7 +400,7 @@ const FlowItemPanel = () => {
               key: '2-4-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '地形分析',
@@ -387,9 +412,9 @@ const FlowItemPanel = () => {
               key: '2-5-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
     {
       title: '文本大数据分析算子',
@@ -406,7 +431,7 @@ const FlowItemPanel = () => {
               key: '3-0-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据索引',
@@ -418,7 +443,7 @@ const FlowItemPanel = () => {
               key: '3-1-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据挖掘',
@@ -430,7 +455,7 @@ const FlowItemPanel = () => {
               key: '3-2-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据处理',
@@ -442,9 +467,9 @@ const FlowItemPanel = () => {
               key: '3-3-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
     {
       title: '空间机器学习算子',
@@ -461,7 +486,7 @@ const FlowItemPanel = () => {
               key: '4-0-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据聚类',
@@ -473,7 +498,7 @@ const FlowItemPanel = () => {
               key: '4-1-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据分类',
@@ -485,7 +510,7 @@ const FlowItemPanel = () => {
               key: '4-2-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
         {
           title: '数据关联',
@@ -497,9 +522,9 @@ const FlowItemPanel = () => {
               key: '4-3-0',
               switcherIcon: <TagsTwoTone />,
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
   ];
 
@@ -515,18 +540,18 @@ const FlowItemPanel = () => {
     <ItemPanel className={styles.itemPanel}>
       <div style={{ padding: '8px 0px' }}>
         <Tree
-          style={{height: 670, userSelect: 'none'}}
+          style={{ height: 670, userSelect: 'none' }}
           height={670}
           showLine
           showIcon
-          defaultExpandedKeys={['0','1','2','3','4']}
+          defaultExpandedKeys={['0', '1', '2', '3', '4']}
           onSelect={onSelect}
           onExpand={onExpand}
           treeData={treeData}
         />
       </div>
     </ItemPanel>
-  )
+  );
 };
 
 export default FlowItemPanel;
