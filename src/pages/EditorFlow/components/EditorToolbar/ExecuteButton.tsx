@@ -172,33 +172,29 @@ class Execute extends React.Component {
     this.setState({ isModalVisible: false });
 
     this.start
-      .then(() => this.startandEnd('start', '开始任务', 'task_start', 200, '2021/5/10下午14:07:16'))
       .then(() =>
-        this.step(
-          this.onlyText,
-          '验证云盘图层数据',
-          'select_cd_data',
-          6200,
-          '2021/5/10下午14:07:16',
-        ),
+        this.startandEnd('start', '开始任务', 'task_start', 200, '2021/5/10 下午14:07:16'),
       )
       .then(() =>
-        this.step(this.onlyText, '验证大数据环境', 'select_cd_data', 500, '2021/5/10下午15:09:32'),
+        this.step(this.onlyText, '输入矢量数据', 'select_cd_data', 6200, '2021/5/10 下午14:07:16'),
       )
-      .then(() =>
-        this.step(this.onlyText, '验证模型参数', 'select_cd_data', 500, '2021/5/10下午15:14:10'),
-      )
+      // .then(() =>
+      //   this.step(this.onlyText, '验证大数据环境', 'select_cd_data', 500, '2021/5/10 下午15:09:32'),
+      // )
+      // .then(() =>
+      //   this.step(this.onlyText, '验证模型参数', 'select_cd_data', 500, '2021/5/10 下午15:14:10'),
+      // )
       .then(() =>
         this.step(
           this.onlyText,
           '创建空间索引',
           'create_spatial_index',
           3600,
-          '2021/5/10下午15:20:11',
+          '2021/5/10 下午15:20:11',
         ),
       ) // 实际为11s
       .then(() =>
-        this.step(this.onlyText, '创建元数据', 'create_metadata', 1500, '2021/5/10下午15:55:31'),
+        this.step(this.onlyText, '创建元数据', 'create_metadata', 1500, '2021/5/10 下午15:55:31'),
       )
       .then(() =>
         this.step(
@@ -206,7 +202,7 @@ class Execute extends React.Component {
           '创建瓦片索引',
           'create_tile_index',
           2400,
-          '2021/5/10下午16:10:23',
+          '2021/5/10 下午16:10:23',
         ),
       )
       .then(() =>
@@ -215,7 +211,7 @@ class Execute extends React.Component {
           '执行模型——过滤',
           'tile_filter',
           1500,
-          '2021/5/10下午16:34:34',
+          '2021/5/10 下午16:34:34',
         ),
       )
       .then(() =>
@@ -224,7 +220,7 @@ class Execute extends React.Component {
           '执行模型——化简',
           'tile_simplify',
           4500,
-          '2021/5/10下午16:49:22',
+          '2021/5/10 下午16:49:22',
         ),
       ) // 实际为11s
       .then(() =>
@@ -233,13 +229,13 @@ class Execute extends React.Component {
           '执行模型——生成pbf',
           'generate_pbf',
           2400,
-          '2021/5/10下午17:32:47',
+          '2021/5/10 下午17:32:47',
         ),
       ) // 实际为5min-6mim
       .then(() =>
-        this.step(this.onlyText, '保存结果', 'copy_cd_data', 4500, '2021/5/10下午17:56:40'),
+        this.step(this.onlyText, '输出瓦片数据', 'copy_cd_data', 4500, '2021/5/10 下午17:56:40'),
       )
-      .then(() => this.startandEnd('end', '结束任务', 'task_end', 200, '2021/5/10下午18:42:45'));
+      .then(() => this.startandEnd('end', '结束任务', 'task_end', 200, '2021/5/10 下午18:42:45'));
   };
 
   handleCancel = () => {

@@ -538,10 +538,10 @@ const FlowItemPanel = () => {
 
   return (
     <ItemPanel className={styles.itemPanel}>
-      <div style={{ padding: '8px 0px' }}>
+      <div style={{ padding: '3px 0px' }}>
         <Tree
-          style={{ height: 670, userSelect: 'none' }}
-          height={670}
+          style={{ height: 833, userSelect: 'none' }}
+          height={833}
           showLine
           showIcon
           defaultExpandedKeys={['0', '1', '2', '3', '4']}

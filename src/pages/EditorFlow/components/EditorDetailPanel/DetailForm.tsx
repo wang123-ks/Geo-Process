@@ -245,7 +245,7 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
     return (
       <div className={styles.card_main}>
         <Card type="inner" size="small" title={this.renderCardTitle()} bordered={false}>
-          <div style={{ height: 570, overflow: 'auto', overflowX: 'hidden' }}>
+          <div style={{ height: 720, overflow: 'auto', overflowX: 'hidden' }}>
             {/* {type === 'node' && this.renderNodeDetail()} */}
             {/* {type === 'edge' && this.renderEdgeDetail()} */}
             {type === 'group' && this.renderGroupDetail()}

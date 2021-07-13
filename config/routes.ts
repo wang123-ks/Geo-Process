@@ -25,7 +25,7 @@ export default [
             routes: [
               {
                 path: '/',
-                redirect: '/welcome',
+                redirect: '/editorflow',
               },
               {
                 path: '/welcome',

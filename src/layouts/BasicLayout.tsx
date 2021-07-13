@@ -129,6 +129,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       {...props}
       {...settings}
       onCollapse={handleMenuCollapse}
+      siderWidth={0}
       onMenuHeaderClick={() => history.push('/')}
       // menuHeaderRender=
       // headerRender={() => (
