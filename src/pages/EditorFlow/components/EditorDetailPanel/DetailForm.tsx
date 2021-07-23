@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import { render } from 'react-dom';
 import styles from './index.less';
 
-import { StyleModal } from 'clouddisk-select-layer-flow/dist/lib/vuerademo.js'; // 引用的vue组件，需要先link
+// import { StyleModal } from 'clouddisk-select-layer-flow/dist/lib/vuerademo.js'; // 引用的vue组件，需要先link
 
 const { Search } = Input;
 
@@ -304,14 +304,14 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
             } */}
           </div>
         </Card>
-        <StyleModal
+        {/* <StyleModal
           showStyleModal={this.state.showStyleModal}
           onlyFolder={this.state.onlyFolder}
           handleClose={this.handleClose}
           handleNewDocument={(e) => {
             this.props.handleInputChange(key, this.state.currentParam, e.url);
           }} // 参数为载荷形式
-        />
+        /> */}
         {/* <this.RenderParams/> */}
       </div>
     );
