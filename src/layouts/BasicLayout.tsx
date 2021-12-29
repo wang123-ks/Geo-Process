@@ -95,11 +95,11 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const menuDataRef = useRef<MenuDataItem[]>([]);
 
   useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
+    // if (dispatch) {
+    //   dispatch({
+    //     type: 'user/fetchCurrent',
+    //   });
+    // }
   }, []);
   /** Init variables */
 

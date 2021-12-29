@@ -1,5 +1,6 @@
 import { Col, Row, Tabs, Timeline } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
+import axios from 'axios';
 
 import { connect } from 'dva';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -10,7 +11,8 @@ import { FlowContextMenu } from './components/EditorContextMenu';
 import { FlowDetailPanel } from './components/EditorDetailPanel';
 import { FlowItemPanel } from './components/EditorItemPanel';
 import { FlowToolbar } from './components/EditorToolbar';
-import mockFlowData from './FlowData/mockFlowData';
+import UpdateContent from './components/EditorCustom/UpdateContent';
+import mockFlowData from './FlowData/mockFlowDataNew';
 import styles from './index.less';
 import { render } from 'react-dom';
 
@@ -72,13 +74,56 @@ class FlowTest extends React.Component {
   // selectNode = (e) => {
   //   console.warn('选择节点', e.item.model)
   // };
-  handleNodeSelect(e) {
-    console.warn('单选', e);
+  handleNodeSelect(e: any) {
+    console.warn('单选', e, e.item.model);
     // let needInput = e.item.model
     this.props.changeShow(false);
     this.props.selectNode(e);
-    this.props.modifyTabsActive('paramsInput');
+    // this.props.modifyTabsActive('paramsInput');
     // console.warn('这是', this.props.processList);
+  }
+
+  handleBeforeCommandExecute(event: any) {
+    if (event.command.name === 'add' && event.command.type === 'edge') {
+      if (this.updateContent) {
+        console.warn('当前操作（before）', event);
+        // 禁止重复连线
+        this.updateContent.checkDupLine(event.command.addModel);
+      }
+    }
+    if (event.command.name === 'add' && event.command.type === 'node') {
+      if (this.updateContent) {
+        console.warn('当前操作（before）', event);
+        // 禁止重复连线
+        this.updateContent.checkDupStartEnd(event.command.addModel);
+      }
+    }
+  }
+
+  handleAfterCommandExecute(event: any) {
+    console.warn('当前操作（after）', event);
+    if (this.updateContent) {
+      this.updateContent.testJson2xml();
+    }
+    if (event.command.name === 'add' && event.command.type === 'node') {
+      console.warn('拖动添加节点测试', event.command.addModel);
+      if (this.updateContent) {
+        // onAfterCommandExecute：在画布渲染完毕之后，再做该操作
+        this.updateContent.modifyDropNode(event.command.addModel);
+      }
+    }
+    if (event.command.name === 'add' && event.command.type === 'edge') {
+      // console.warn('拖动添加节点测试', event.command.addModel);
+      if (this.updateContent) {
+        this.updateContent.modifyAddLine(event.command.addModel);
+      }
+    }
+    if (event.command.name === 'delete') {
+      console.warn('当前操作（after）', event, event.command.itemIds);
+      if (this.updateContent) {
+        this.updateContent.modifyDelete(event.command.itemIds, event.command.snapShot);
+      }
+    }
   }
 
   renderPendingDot = (processNode) => {
@@ -103,12 +148,20 @@ class FlowTest extends React.Component {
       //   //   defaultMessage: '',
       //   // })}
       // >
-      <GGEditor className={styles.editor}>
-        {/* <Row className={styles.editorHd}>
-            <Col span={24}>
-              <FlowToolbar />
-            </Col>
-          </Row> */}
+      <GGEditor
+        className={styles.editor}
+        onBeforeCommandExecute={(event: any) => {
+          this.handleBeforeCommandExecute(event);
+        }}
+        onAfterCommandExecute={(event: any) => {
+          this.handleAfterCommandExecute(event);
+        }}
+      >
+        <Row>
+          <Col span={24}>
+            <UpdateContent onRef={(c) => (this.updateContent = c)} />
+          </Col>
+        </Row>
         <Row className={styles.editorBd}>
           <Col span={4} className={styles.editorSidebar}>
             <FlowItemPanel />
@@ -122,7 +175,9 @@ class FlowTest extends React.Component {
             <Flow
               className={styles.flow}
               data={mockFlowData}
-              onNodeClick={(e) => {
+              noEndEdge={false}
+              graph={{ edgeDefaultShape: 'flow-polyline-round' }}
+              onNodeClick={(e: any) => {
                 this.handleNodeSelect(e);
               }}
             />
@@ -178,6 +233,7 @@ class FlowTest extends React.Component {
 }
 
 export default FlowTest;
+// export default withPropsAPI(FlowTest);
 // export default () => (
 //   <PageContainer
 //     // content={formatMessage({

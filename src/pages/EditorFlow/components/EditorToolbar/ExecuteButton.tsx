@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Button, Modal, Form, Input, Tooltip } from 'antd';
-import { PlayCircleOutlined } from '@ant-design/icons';
+import { PlayCircleOutlined, PlayCircleFilled, PlayCircleTwoTone } from '@ant-design/icons';
 import { withPropsAPI } from 'gg-editor';
 import styles from './index.less';
 
@@ -48,6 +48,45 @@ class Execute extends React.Component {
 
   selectNodes = (nodeId) => {
     const { propsAPI } = this.props;
+
+    // propsAPI.executeCommand('clear') // clear 清空画布
+
+    // propsAPI.read(mockFlowData2) // 更新全部
+
+    // const curFlowData = propsAPI.save();
+    // console.warn('当前项', curFlowData); // 获取当前项
+
+    // let type = 'node';
+    // let model = {
+    //   label: '添加测试',
+    //   color: '#E76F00',
+    //   key_a: 'addTest',
+    //   "x": 56.671875,
+    //   "y": 133,
+    //   "shape": "flow-circle",
+    //   "size": "84*84",
+    // };
+    // propsAPI.add(type, model)   //添加某一项
+
+    // const node = propsAPI.find(nodeId);
+    // console.warn('打印node', node ) // 按nodeId查找
+
+    // let model = {
+    //   label: '添加测试',
+    //   color: '#E76F00',
+    //   key_a: 'addTest',
+    //   // "x": 56.671875,
+    //   // "y": 133,
+    //   "shape": "flow-circle",
+    //   "size": "84*84",
+    // };
+    // propsAPI.update(nodeId, model)   //添加某一项
+
+    // propsAPI.remove(nodeId)
+
+    // let selects = propsAPI.getSelected()
+    // console.warn('打印selects', selects ) // 获取选中项
+
     const node = propsAPI.find(nodeId);
     propsAPI.currentPage.clearSelected();
     propsAPI.currentPage.setSelected(node, true);
@@ -247,7 +286,7 @@ class Execute extends React.Component {
       <div>
         <Tooltip title="执行" placement="bottom" overlayClassName={styles.tooltip}>
           <div onClick={this.showModal} style={{ ['marginLeft']: 20 }}>
-            <PlayCircleOutlined style={{ cursor: 'pointer' }} />
+            <PlayCircleTwoTone style={{ cursor: 'pointer' }} />
           </div>
         </Tooltip>
         <Modal

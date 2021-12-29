@@ -8,7 +8,7 @@ import type { ConnectState } from '@/models/connect';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
-import x_logo from '../../assets/mapgis_x_logo.png';
+import x_logo from '../../assets/MapGIS-X-white.png';
 
 export type GlobalHeaderRightProps = {
   theme?: ProSettings['navTheme'] | 'realDark';
@@ -32,8 +32,10 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
   return (
     <div className={className}>
       <div style={{ padding: '0px 10px' }}>
-        <img src={x_logo}/>
-        <strong style={{ marginLeft: 12,fontSize: 18,color:'white', }}>MapGIS分布式地理处理流程引擎</strong>
+        <img src={x_logo} style={{ height: '48px', top: '-3px', position: 'relative' }} />
+        <strong style={{ marginLeft: 12, fontSize: 18, color: 'white' }}>
+          MapGIS分布式地理处理流程引擎
+        </strong>
       </div>
       {/* <HeaderSearch
         className={`${styles.action} ${styles.search}`}

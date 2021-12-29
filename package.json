@@ -53,9 +53,11 @@
     "@antv/data-set": "^0.11.0",
     "@umijs/route-utils": "^1.0.33",
     "antd": "^4.15.0",
+    "axios": "^0.24.0",
     "bizcharts": "^3.5.3-beta.0",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "classnames": "^2.2.6",
+    "file-saver": "^2.0.5",
     "gg-editor": "^2.0.2",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",
@@ -67,7 +69,8 @@
     "react-fittext": "^1.0.0",
     "react-helmet-async": "^1.0.4",
     "umi": "^3.4.1",
-    "umi-request": "^1.0.8"
+    "umi-request": "^1.0.8",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^1.0.28",
