@@ -1,5 +1,5 @@
 import React from 'react';
-// import { connect } from 'dva';
+import { connect } from 'dva';
 import { Button, Modal, Form, Input, Tooltip, message, Dropdown, Menu } from 'antd';
 import { ConsoleSqlOutlined, SaveOutlined, SaveTwoTone } from '@ant-design/icons';
 import { withPropsAPI } from 'gg-editor';
@@ -19,6 +19,28 @@ message.config({
   duration: 4,
 });
 
+const namespace = 'flowForm';
+
+const mapStateToProps = (state: any) => {
+  const flowForm = state[namespace];
+  return {
+    flowForm,
+  };
+};
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     handleFormChange: (form) => {
+//       const action = {
+//         type: `${namespace}/changeFlowForm`,
+//         payload: form,
+//       };
+//       dispatch(action);
+//     },
+//   };
+// };
+
+@connect(mapStateToProps)
 class Save extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +48,7 @@ class Save extends React.Component {
       modalVisible: false,
       saveTitle: '流程保存',
       uploadUrl: '',
+      saveWay: 'local', // local、server
     };
   }
 
@@ -52,6 +75,7 @@ class Save extends React.Component {
     let flag = this.handleSaveVerify();
     if (flag) {
       this.setState({ saveTitle: '保存至本地' });
+      this.setState({ saveWay: 'local' });
       this.showModal();
     } else {
       message.warning('存在未填写完成的节点，不可保存');
@@ -63,6 +87,7 @@ class Save extends React.Component {
     let flag = this.handleSaveVerify();
     if (flag) {
       this.setState({ saveTitle: '保存至igserver' });
+      this.setState({ saveWay: 'server' });
       this.showModal();
     } else {
       message.warning('存在未填写完成的节点，不可保存');
@@ -217,7 +242,7 @@ class Save extends React.Component {
           },
           Description: '',
           Implementation: {
-            TOOL: {
+            Tool: {
               $: {
                 Id: '',
                 Name: '',
@@ -293,15 +318,15 @@ class Save extends React.Component {
           if (group.FlowIndex === item.FlowIndex) {
             switch (item.NodeType) {
               case NodeTypeList.METHOD:
-                activity.Implementation.TOOL.$.Id = item.xattrs.functionId || '';
-                activity.Implementation.TOOL.$.Name = item.xattrs.functionName || '';
+                activity.Implementation.Tool.$.Id = item.xattrs.functionId || '';
+                activity.Implementation.Tool.$.Name = item.xattrs.functionName || '';
                 activity.ExtendedAttributes.ExtendedAttribute[0].$.Value = item.x.toString();
                 activity.ExtendedAttributes.ExtendedAttribute[1].$.Value = (-item.y).toString();
                 break;
               case NodeTypeList.OBJECT:
-                activity.Implementation.TOOL.$.FuntionObjSourceType =
+                activity.Implementation.Tool.$.FuntionObjSourceType =
                   item.xattrs.FuntionObjSourceType || '';
-                activity.Implementation.TOOL.$.ObjSourceActID = item.xattrs.PreviousNode || '0';
+                activity.Implementation.Tool.$.ObjSourceActID = item.xattrs.PreviousNode || '0';
                 break;
               case NodeTypeList.INPUT:
                 let DataSource;
@@ -329,7 +354,7 @@ class Save extends React.Component {
                     DataSource: DataSource,
                   },
                 };
-                activity.Implementation.TOOL.ActualParameters.ActualParameter.push(parameterIn);
+                activity.Implementation.Tool.ActualParameters.ActualParameter.push(parameterIn);
                 break;
               case NodeTypeList.OUTPUT:
                 let parameterOut = {
@@ -342,7 +367,7 @@ class Save extends React.Component {
                     DataSource: item.xattrs.DataSource,
                   },
                 };
-                activity.Implementation.TOOL.ActualParameters.ActualParameter.push(parameterOut);
+                activity.Implementation.Tool.ActualParameters.ActualParameter.push(parameterOut);
                 break;
             }
           }
@@ -389,7 +414,7 @@ class Save extends React.Component {
       WorkFlowProcesses: {
         WorkFlowProcess: {
           $: {
-            Id: formData.Description,
+            Id: formData.Id,
             Name: formData.Name,
             Type: 'OSFLOW',
             AcessLevel: 'PRIVATE',
@@ -398,7 +423,7 @@ class Save extends React.Component {
             Version: '',
             Creator: formData.Creator || '',
             Created: createdTime,
-            SystemBelong: 'Web保存测试',
+            SystemBelong: 'Web端保存',
             Description: formData.Description || '',
           },
           FormalParameters: {
@@ -440,37 +465,40 @@ class Save extends React.Component {
     // console.warn('暂时json转字符串', JSON.stringify(myJson));
     // let fakeXml = Json2XML(myJson)
 
-    // 方式1：通过<a>模拟触发下载保存到本地
-    // this.handleSaveXml(finalXml, 'myFlow.xml', 'text/xml')
-    // 方式2：通过file-saver的saveAs保存到本地
-    const blob = new Blob([finalXml], { type: 'text/xml' });
-    saveAs(blob, 'myFlow.xml');
+    let way = this.state.saveWay;
+    if (way === 'local') {
+      // 方式1：通过<a>模拟触发下载保存到本地
+      // this.handleSaveXml(finalXml, 'myFlow.xml', 'text/xml')
+      // 方式2：通过file-saver的saveAs保存到本地
+      const blob = new Blob([finalXml], { type: 'text/xml' });
+      saveAs(blob, 'myFlow.xml');
 
-    this.setState({ modalVisible: false });
+      this.setState({ modalVisible: false });
+    } else if (way === 'server') {
+      // 保存至igs
+      let uploadUrl = this.state.uploadUrl;
 
-    // 保存至igs
-    // let uploadUrl = this.state.uploadUrl;
-
-    // let uploadFormData = new FormData();
-    // uploadFormData.append('workflowNo', formData.Description);
-    // uploadFormData.append('aliasName', formData.Name);
-    // uploadFormData.append('templateContent', finalXml);
-    // axios
-    //   .post(uploadUrl, uploadFormData)
-    //   .then((response) => {
-    //     console.warn('上传', response);
-    //     if (response.status === 200) {
-    //       if (response.data.code > 0) {
-    //         message.success('保存成功');
-    //         vm.setState({ modalVisible: false });
-    //       } else {
-    //         message.error(response.data.msg || 'xml格式有误？');
-    //       }
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error('错误', err);
-    //   });
+      let uploadFormData = new FormData();
+      uploadFormData.append('workflowNo', formData.Id);
+      uploadFormData.append('aliasName', formData.Name);
+      uploadFormData.append('templateContent', finalXml);
+      axios
+        .post(uploadUrl, uploadFormData)
+        .then((response) => {
+          console.warn('上传', response);
+          if (response.status === 200) {
+            if (response.data.code > 0) {
+              message.success('保存成功');
+              vm.setState({ modalVisible: false });
+            } else {
+              message.error(response.data.msg || 'xml格式有误？');
+            }
+          }
+        })
+        .catch((err) => {
+          console.error('错误', err);
+        });
+    }
   };
 
   getProcessParaList(flow) {
@@ -559,6 +587,7 @@ class Save extends React.Component {
         <CollectionCreateForm
           visible={this.state.modalVisible}
           title={this.state.saveTitle}
+          defaultValue={this.props.flowForm.data}
           onCancel={this.handleCancel}
           onSubmit={this.handleSubmit}
           isSubmitting={isSubmitting}

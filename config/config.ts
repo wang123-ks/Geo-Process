@@ -15,7 +15,7 @@ export default defineConfig({
     hmr: true,
   },
   history: {
-    type: 'hash',
+    type: process.env.NODE_ENV === 'production' ? 'hash' : 'browser',
   },
   publicPath: './',
   locale: {

@@ -5,7 +5,7 @@ export const xmlFlow2Web = (content, propsAPI) => {
   let myJson = XML2Json(content);
   // const curFlowData = propsAPI.save()
 
-  console.warn('检测是否有', myJson, JSON.stringify(myJson));
+  console.warn('检测是否有', myJson);
   // console.warn('打印json', JSON.stringify(curFlowData))
 
   let newFlowData = {
@@ -15,12 +15,13 @@ export const xmlFlow2Web = (content, propsAPI) => {
   };
   let WorkFlowProcess = myJson.WorkFlowProcesses.WorkFlowProcess;
 
+  let FormHeader = {};
   if (WorkFlowProcess) {
-    let FormHeader = {
+    FormHeader = {
       ...WorkFlowProcess.$,
       ...WorkFlowProcess.ProcessHeader,
     };
-    console.warn('生成保存表单填写值，等着return', FormHeader);
+    // console.warn('生成保存表单填写值，等着return', FormHeader);
   }
 
   // 生成全局所需Map
@@ -30,12 +31,19 @@ export const xmlFlow2Web = (content, propsAPI) => {
   let EdgesList = [];
 
   if (WorkFlowProcess && WorkFlowProcess.FormalParameters) {
+    if (
+      Object.prototype.toString.call(WorkFlowProcess.FormalParameters.FormalParameter) ===
+      '[object Object]'
+    ) {
+      let FormalParameter = [WorkFlowProcess.FormalParameters.FormalParameter];
+      WorkFlowProcess.FormalParameters.FormalParameter = FormalParameter;
+    }
     WorkFlowProcess.FormalParameters.FormalParameter.forEach((item) => {
       let key = 'FormalParameter-' + item.$.Index;
       let value = item.$;
       FormalParameterMap.set(key, value);
     });
-    console.warn('生成全局参数Map', FormalParameterMap);
+    // console.warn('生成全局参数Map', FormalParameterMap);
   }
   if (WorkFlowProcess && WorkFlowProcess.Activities) {
     WorkFlowProcess.Activities.Activitie.forEach((item) => {
@@ -68,7 +76,7 @@ export const xmlFlow2Web = (content, propsAPI) => {
         newFlowData.nodes.push(node);
         NodeIdListMap.set(FlowIndex + '-' + NodeTypeList.METHOD, node.id);
       } else if (item.$.Type === 'TOOL') {
-        let TOOL = item.Implementation.TOOL;
+        let TOOL = item.Implementation.Tool;
         // group、Method、object、input、output
         // group
         let randomGroupId = Math.random().toString(36).substr(2);
@@ -354,8 +362,10 @@ export const xmlFlow2Web = (content, propsAPI) => {
       item.isUsedCount = usedCountMap.get(item.FlowIndex) || 0;
     });
   }
-  console.warn('临时查看', NodeIdListMap, EdgesList, useOtherListMap);
+  // console.warn('临时查看', NodeIdListMap, EdgesList, useOtherListMap);
 
   console.warn('效果查看', newFlowData);
   propsAPI.read(newFlowData); // 更新全部
+
+  return FormHeader;
 };

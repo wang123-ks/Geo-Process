@@ -2,6 +2,7 @@ import { Item, ItemPanel, withPropsAPI } from 'gg-editor';
 import { Card, Tree } from 'antd';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { connect } from 'dva';
 
 import { xmlFlow2Web } from '@/pages/EditorFlow/util/XmlFlowToWeb';
 
@@ -516,6 +517,28 @@ function updateTreeData(list, key, children) {
   });
 }
 
+const namespace = 'flowForm';
+
+const mapStateToProps = (state: any) => {
+  const flowForm = state[namespace];
+  return {
+    flowForm,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleFormChange: (form) => {
+      const action = {
+        type: `${namespace}/changeFlowForm`,
+        payload: form,
+      };
+      dispatch(action);
+    },
+  };
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
 class FlowItemPanel extends React.Component {
   constructor(props) {
     super(props);
@@ -534,7 +557,7 @@ class FlowItemPanel extends React.Component {
   parseUrl() {
     const { propsAPI } = this.props;
 
-    // let xmlDownload = "http://192.168.80.105:9091/datastore/rest/dataset/hdfs/download/workflows/可运行流程.xml"
+    // let xmlDownload = "http://192.168.80.105:9091/datastore/rest/dataset/hdfs/download/workflows/回显用.xml"
     // let xmlDownload = "http://192.168.199.71:8089/manager/workflow/download?workflowId=600293" // 跨域？
     // let base64xml1 = Buffer.from(xmlDownload, 'utf-8').toString('base64')
     // // let base64xml2 = encodeURIComponent(base64xml1)
@@ -554,8 +577,10 @@ class FlowItemPanel extends React.Component {
       axios
         .get(xmlDownload)
         .then((res) => {
-          console.warn('请求结果1', res.data);
-          xmlFlow2Web(res.data, propsAPI);
+          // console.warn('请求结果1', res.data);
+          let FormHeader = xmlFlow2Web(res.data, propsAPI);
+
+          this.props.handleFormChange(FormHeader);
         })
         .catch((err) => {
           console.error('错误', err);

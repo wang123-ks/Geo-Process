@@ -1,6 +1,7 @@
 import React from 'react';
 // import { connect } from 'dva';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, InputNumber } from 'antd';
+import { FormInstance } from 'antd/es/form';
 
 const layout = {
   labelCol: {
@@ -13,7 +14,7 @@ const layout = {
 
 class CollectionCreateForm extends React.Component {
   render() {
-    const { visible, title, onCancel, onSubmit, form, isSubmitting } = this.props;
+    const { visible, title, onCancel, onSubmit, isSubmitting, defaultValue } = this.props;
     // const { getFieldDecorator } = form;
     const onFinish = (values: any) => {
       // console.warn('Success:', values);
@@ -22,6 +23,7 @@ class CollectionCreateForm extends React.Component {
 
     return (
       <Modal
+        destroyOnClose
         visible={visible}
         title={title}
         okText="提交"
@@ -29,26 +31,33 @@ class CollectionCreateForm extends React.Component {
         confirmLoading={isSubmitting}
         okButtonProps={{ htmlType: 'submit', form: 'editForm' }}
       >
-        <Form id="editForm" {...layout} name="userForm" autoComplete="off" onFinish={onFinish}>
+        <Form
+          id="editForm"
+          {...layout}
+          ref={this.formRef}
+          initialValues={defaultValue}
+          name="userForm"
+          autoComplete="off"
+          onFinish={onFinish}
+        >
           <Form.Item
             label="工作流名称："
             name="Name"
             rules={[{ required: true, message: '请输入工作流名称!' }]}
           >
-            <Input style={{ width: 200 }} />
+            <Input style={{ width: 200 }} placeholder="请输入工作流名称" type="textarea" />
           </Form.Item>
           <Form.Item
-            label="描述："
-            name="Description"
-            // rules={[{ required: true, message: '请输入模型描述!' }]}
+            label="工作流编码："
+            name="Id"
+            rules={[{ required: true, message: '请输入编码!' }]}
           >
+            <InputNumber style={{ width: 200 }} placeholder="请输入编码" type="textarea" />
+          </Form.Item>
+          <Form.Item label="描述：" name="Description">
             <Input style={{ width: 200 }} placeholder="请输入模型描述" type="textarea" />
           </Form.Item>
-          <Form.Item
-            label="创建人："
-            name="Creator"
-            // rules={[{ required: true, message: '请输入模型描述!' }]}
-          >
+          <Form.Item label="创建人：" name="Creator">
             <Input style={{ width: 200 }} placeholder="请输入创建人" type="textarea" />
           </Form.Item>
         </Form>

@@ -77,8 +77,24 @@ class Updata extends React.Component {
       props.onRef(this);
     }
     this.state = {
-      indexLog: 0, // 若回显后再加新的流程节点，则此方法存在问题
+      indexLog: 0,
     };
+  }
+
+  setMaxFlowIndex() {
+    const { propsAPI } = this.props;
+
+    let maxIndex = 0;
+    const curFlowData = propsAPI.save();
+    console.warn('测试12334', curFlowData); // 获取当前项
+    if (curFlowData.groups && curFlowData.groups.length > 0) {
+      curFlowData.groups.forEach((item) => {
+        if (item.FlowIndex > maxIndex) maxIndex = item.FlowIndex;
+      });
+    }
+    this.setState({
+      indexLog: maxIndex, // 获取到FlowIndex的最大值
+    });
   }
 
   testJson2xml = () => {

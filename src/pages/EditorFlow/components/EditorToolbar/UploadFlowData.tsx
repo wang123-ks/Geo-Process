@@ -3,9 +3,32 @@ import { Button, Modal, Form, Input, Tooltip, Popconfirm } from 'antd';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { withPropsAPI } from 'gg-editor';
 import styles from './index.less';
+import { connect } from 'dva';
 
 import { xmlFlow2Web } from '@/pages/EditorFlow/util/XmlFlowToWeb';
 
+const namespace = 'flowForm';
+
+const mapStateToProps = (state: any) => {
+  const flowForm = state[namespace];
+  return {
+    flowForm,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleFormChange: (form) => {
+      const action = {
+        type: `${namespace}/changeFlowForm`,
+        payload: form,
+      };
+      dispatch(action);
+    },
+  };
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
 class UploadFlow extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +40,10 @@ class UploadFlow extends React.Component {
   uploadClick = (event) => {
     // console.warn('点击事件', event)
     let inputButton = document.getElementById('uploadInput');
-    if (inputButton) inputButton.click();
+    if (inputButton) {
+      inputButton.value = '';
+      inputButton.click();
+    }
   };
 
   UploadFile = (event) => {
@@ -37,8 +63,9 @@ class UploadFlow extends React.Component {
       // console.warn('读取到数据', e)
       if (e.currentTarget && e.currentTarget.result) {
         let flowXml = e.currentTarget.result;
+        let FormHeader = xmlFlow2Web(flowXml, propsAPI);
 
-        xmlFlow2Web(flowXml, propsAPI);
+        this.props.handleFormChange(FormHeader);
       }
     };
     reader.onerror = (stuff) => {};

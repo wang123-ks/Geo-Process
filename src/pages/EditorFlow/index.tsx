@@ -109,6 +109,7 @@ class FlowTest extends React.Component {
       console.warn('拖动添加节点测试', event.command.addModel);
       if (this.updateContent) {
         // onAfterCommandExecute：在画布渲染完毕之后，再做该操作
+        this.updateContent.setMaxFlowIndex();
         this.updateContent.modifyDropNode(event.command.addModel);
       }
     }
@@ -174,7 +175,7 @@ class FlowTest extends React.Component {
             </Row>
             <Flow
               className={styles.flow}
-              data={mockFlowData}
+              // data={mockFlowData}
               noEndEdge={false}
               graph={{ edgeDefaultShape: 'flow-polyline-round' }}
               onNodeClick={(e: any) => {
