@@ -103,7 +103,7 @@ class FlowTest extends React.Component {
   handleAfterCommandExecute(event: any) {
     console.warn('当前操作（after）', event);
     if (this.updateContent) {
-      this.updateContent.testJson2xml();
+      // this.updateContent.testJson2xml();
     }
     if (event.command.name === 'add' && event.command.type === 'node') {
       console.warn('拖动添加节点测试', event.command.addModel);

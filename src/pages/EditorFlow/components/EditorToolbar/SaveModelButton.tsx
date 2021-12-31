@@ -443,36 +443,34 @@ class Save extends React.Component {
     // 方式1：通过<a>模拟触发下载保存到本地
     // this.handleSaveXml(finalXml, 'myFlow.xml', 'text/xml')
     // 方式2：通过file-saver的saveAs保存到本地
-    // const blob = new Blob([finalXml], {type: 'text/xml'});
-    // saveAs(blob, 'myFlow.xml');
+    const blob = new Blob([finalXml], { type: 'text/xml' });
+    saveAs(blob, 'myFlow.xml');
 
-    // this.setState({ modalVisible: false });
+    this.setState({ modalVisible: false });
 
     // 保存至igs
-    // let url = "http://192.168.83.148:8089/manager/api/service/workflow/publish"
+    // let uploadUrl = this.state.uploadUrl;
 
-    let uploadUrl = this.state.uploadUrl;
-
-    let uploadFormData = new FormData();
-    uploadFormData.append('workflowNo', formData.Description);
-    uploadFormData.append('aliasName', formData.Name);
-    uploadFormData.append('templateContent', finalXml);
-    axios
-      .post(uploadUrl, uploadFormData)
-      .then((response) => {
-        console.warn('上传', response);
-        if (response.status === 200) {
-          if (response.data.code > 0) {
-            message.success('保存成功');
-            vm.setState({ modalVisible: false });
-          } else {
-            message.error(response.data.msg || 'xml格式有误？');
-          }
-        }
-      })
-      .catch((err) => {
-        console.error('错误', err);
-      });
+    // let uploadFormData = new FormData();
+    // uploadFormData.append('workflowNo', formData.Description);
+    // uploadFormData.append('aliasName', formData.Name);
+    // uploadFormData.append('templateContent', finalXml);
+    // axios
+    //   .post(uploadUrl, uploadFormData)
+    //   .then((response) => {
+    //     console.warn('上传', response);
+    //     if (response.status === 200) {
+    //       if (response.data.code > 0) {
+    //         message.success('保存成功');
+    //         vm.setState({ modalVisible: false });
+    //       } else {
+    //         message.error(response.data.msg || 'xml格式有误？');
+    //       }
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error('错误', err);
+    //   });
   };
 
   getProcessParaList(flow) {
@@ -550,10 +548,12 @@ class Save extends React.Component {
                         <SaveOutlined style={{ 'cursor': 'pointer'}}/>
                     </div>
                 </Tooltip> */}
-        <Dropdown overlay={menu} placement="bottomCenter" arrow>
-          <div style={{ ['marginLeft']: 10 }}>
-            <SaveTwoTone style={{ cursor: 'pointer' }} />
-          </div>
+        <Dropdown overlay={menu} placement="bottomCenter" arrow trigger={['click']}>
+          <Tooltip title="保存" placement="bottom" overlayClassName={styles.tooltip}>
+            <div style={{ ['marginLeft']: 10 }}>
+              <SaveTwoTone style={{ cursor: 'pointer' }} />
+            </div>
+          </Tooltip>
         </Dropdown>
 
         <CollectionCreateForm

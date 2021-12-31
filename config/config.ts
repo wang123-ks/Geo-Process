@@ -17,6 +17,7 @@ export default defineConfig({
   history: {
     type: 'hash',
   },
+  publicPath: './',
   locale: {
     // default zh-CN
     default: 'zh-CN',

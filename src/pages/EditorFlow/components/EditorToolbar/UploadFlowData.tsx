@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Form, Input, Tooltip } from 'antd';
+import { Button, Modal, Form, Input, Tooltip, Popconfirm } from 'antd';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { withPropsAPI } from 'gg-editor';
 import styles from './index.less';
@@ -48,20 +48,26 @@ class UploadFlow extends React.Component {
   render() {
     return (
       <div>
-        <Tooltip title="点击上传" placement="bottomRight" overlayClassName={styles.tooltip}>
-          <input
-            id="uploadInput"
-            type="file"
-            name="file"
-            accept="application/xml"
-            onChange={this.UploadFile}
-            style={{ display: 'none' }}
-          />
-
-          <div onClick={this.uploadClick} style={{ ['margin']: '0 10px' }}>
-            <CloudUploadOutlined style={{ cursor: 'pointer' }} />
-          </div>
-        </Tooltip>
+        <input
+          id="uploadInput"
+          type="file"
+          name="file"
+          accept="application/xml"
+          onChange={this.UploadFile}
+          style={{ display: 'none' }}
+        />
+        <Popconfirm
+          title="是否确认上传流程图文件？上传成功后当前流程图将清空！"
+          onConfirm={this.uploadClick}
+          okText="是"
+          cancelText="否"
+        >
+          <Tooltip title="点击上传" placement="bottom" overlayClassName={styles.tooltip}>
+            <div style={{ ['margin']: '0 10px' }}>
+              <CloudUploadOutlined style={{ cursor: 'pointer' }} />
+            </div>
+          </Tooltip>
+        </Popconfirm>
       </div>
     );
   }
