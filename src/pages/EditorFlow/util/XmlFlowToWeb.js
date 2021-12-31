@@ -149,13 +149,13 @@ export const xmlFlow2Web = (content, propsAPI) => {
         let randomObjId = Math.random().toString(36).substr(2);
         let copyNode = {
           type: 'node',
-          size: '30*30',
+          size: '40*40',
           shape: 'flow-circle',
-          // "label": TOOL.$.Name,
+          label: 'object',
           color: '#EC3D3D',
           NodeType: NodeTypeList.OBJECT,
-          x: xPos + 65 + nodeLabelTooLong,
-          y: yPos - 65,
+          x: xPos + 70 + nodeLabelTooLong,
+          y: yPos - 70,
           id: randomObjId,
           parent: randomGroupId,
           FlowIndex: FlowIndex,

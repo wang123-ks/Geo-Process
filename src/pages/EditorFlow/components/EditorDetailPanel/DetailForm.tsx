@@ -376,13 +376,19 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
   renderCardTitle = () => {
     // console.warn('当前item', this.item.getModel())
     // const { label = '', shape = 'flow-smooth' } = this.item.getModel();
-    const { label = 'object' } = this.item.getModel();
-    // console.warn('当前item', this.item.getModel());
+    const { label = '' } = this.item.getModel();
+    let title = label;
+    let type = '';
+    if (this.item.getModel().xattrs && this.item.getModel().xattrs.type) {
+      type = this.item.getModel().xattrs.type;
+      title = label + '【类型：' + type + '】';
+    }
     return (
       <span>
-        {/* <TagsTwoTone /> */}
         <TagsTwoTone />
-        <span style={{ ['paddingLeft']: 5 }}>{label}</span>
+        <span style={{ ['paddingLeft']: 5 }} title={type}>
+          {title}
+        </span>
       </span>
     );
   };
@@ -455,7 +461,7 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
         <Card type="inner" size="small" title={this.renderCardTitle()} bordered={false}>
           <div style={{ height: 720, overflow: 'auto', overflowX: 'hidden' }}>
             {/* {type === 'node' && this.renderNodeDetail()} */}
-            {type === 'edge' && this.renderEdgeDetail()}
+            {/* {type === 'edge' && this.renderEdgeDetail()} */}
             {type === 'group' && this.renderGroupDetail()}
             {/* {nodeType === NodeTypeList.OBJECT && <p>请选择与之相连的流程节点并设置来源方式</p>} */}
             {nodeType === NodeTypeList.OBJECT && this.renderObjecySet()}

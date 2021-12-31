@@ -87,8 +87,8 @@ class Updata extends React.Component {
     let maxIndex = 0;
     const curFlowData = propsAPI.save();
     console.warn('测试12334', curFlowData); // 获取当前项
-    if (curFlowData.groups && curFlowData.groups.length > 0) {
-      curFlowData.groups.forEach((item) => {
+    if (curFlowData.nodes && curFlowData.nodes.length > 0) {
+      curFlowData.nodes.forEach((item) => {
         if (item.FlowIndex > maxIndex) maxIndex = item.FlowIndex;
       });
     }
@@ -190,13 +190,14 @@ class Updata extends React.Component {
       let randomMainId = Math.random().toString(36).substr(2);
       let copyNode = {
         type: 'node',
-        size: '30*30',
+        size: '40*40',
         shape: 'flow-circle',
         // "label": model.paramsList[i].name,
+        label: 'object',
         color: '#EC3D3D',
         NodeType: NodeTypeList.OBJECT,
-        x: model.x + 65 + nodeLabelTooLong,
-        y: model.y - 65,
+        x: model.x + 70 + nodeLabelTooLong,
+        y: model.y - 70,
         id: randomMainId,
         parent: randomGroupId,
         FlowIndex: FlowIndex,
@@ -604,6 +605,20 @@ class Updata extends React.Component {
   getMainNodeId = (model, flowData) => {
     let length = flowData.nodes.length;
     return flowData.nodes[length - 1].id;
+  };
+
+  watchRedoEvent = () => {
+    message.warning('禁止使用回撤操作');
+
+    // const { propsAPI } = this.props;
+    // propsAPI.executeCommand('undo');
+  };
+
+  watchUndoEvent = () => {
+    message.warning('禁止使用撤销操作');
+
+    const { propsAPI } = this.props;
+    propsAPI.executeCommand('redo');
   };
 
   // selectNodes = (nodeId) => {

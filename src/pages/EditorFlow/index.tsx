@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, Timeline } from 'antd';
+import { Col, Row, Tabs, Timeline, message } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
 import axios from 'axios';
 
@@ -69,6 +69,7 @@ const mapDispatchToProps = (dispatch) => {
 class FlowTest extends React.Component {
   constructor(props) {
     super(props);
+    this.keysDown = '';
   }
 
   // selectNode = (e) => {
@@ -84,6 +85,8 @@ class FlowTest extends React.Component {
   }
 
   handleBeforeCommandExecute(event: any) {
+    console.warn('当前操作（before）', event);
+
     if (event.command.name === 'add' && event.command.type === 'edge') {
       if (this.updateContent) {
         console.warn('当前操作（before）', event);
@@ -123,6 +126,22 @@ class FlowTest extends React.Component {
       console.warn('当前操作（after）', event, event.command.itemIds);
       if (this.updateContent) {
         this.updateContent.modifyDelete(event.command.itemIds, event.command.snapShot);
+      }
+    }
+  }
+
+  handleKeyDown(e: any) {
+    if (e.domEvent.shiftKey && e.domEvent.ctrlKey && e.domEvent.keyCode === 90) {
+      // console.warn('监控到回撤按钮', this.updateContent)
+      if (this.updateContent) {
+        // 禁止回撤
+        this.updateContent.watchRedoEvent();
+      }
+    } else if (e.domEvent.ctrlKey && e.domEvent.keyCode === 90) {
+      // console.warn('监控到撤销按钮', this.updateContent)
+      if (this.updateContent) {
+        // 禁止撤销
+        this.updateContent.watchUndoEvent();
       }
     }
   }
@@ -181,6 +200,10 @@ class FlowTest extends React.Component {
               onNodeClick={(e: any) => {
                 this.handleNodeSelect(e);
               }}
+              onKeyDown={(event) => {
+                this.handleKeyDown(event);
+              }}
+              // onKeyUp={this.handleKeyUp}
             />
           </Col>
           <Col span={4} className={styles.editorSidebar}>
