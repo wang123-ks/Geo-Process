@@ -430,7 +430,7 @@ class Updata extends React.Component {
   }
 
   checkLine(sourceNode, targetNode) {
-    // 检查连线是否符合规则:0、检查是否有重复线（渲染前已检查）；1、检查是否连接自身；2、检查是否连的是组内；3、检查是否符合LineRules；4、检查是否符合已选项；5、检查被连节点的被连线个数，只能连一条线
+    // 检查连线是否符合规则:0、检查是否有重复线（渲染前已检查）；1、检查是否连接自身；2、检查是否连的是组内；3、检查是否符合LineRules；4、检查是否符合已选项；5、检查被连节点的被连线个数，只能连一条线；6、检查是否为前流程
     // const { propsAPI } = this.props;
 
     let result = {
@@ -446,7 +446,7 @@ class Updata extends React.Component {
       return result;
     }
 
-    // 2、检查是否连的是组内
+    // 2、检查是否连的是组内节点
     if (
       sourceNode.model.parent &&
       targetNode.model.parent &&
@@ -490,7 +490,19 @@ class Updata extends React.Component {
       return result;
     }
 
-    // 5、检查是否符合已选项
+    // 5、检查是否为前流程
+    if (targetNodeType === NodeTypeList.INPUT || targetNodeType === NodeTypeList.OBJECT) {
+      let isPrevious = this.checkPrevious(sourceNode.model.FlowIndex, targetNode.model.FlowIndex);
+      if (!isPrevious) {
+        result = {
+          msg: '当前来源不属于前流程，请通过连线保证来源为前流程',
+          flag: false,
+        };
+        return result;
+      }
+    }
+
+    // 6、检查是否符合已选项
     if (rule.needCheckSourceType) {
       if (targetNodeType === NodeTypeList.INPUT) {
         let SourceType = targetNode.model.xattrs.SourceType;
@@ -533,6 +545,43 @@ class Updata extends React.Component {
         return result;
       }
     }
+    return result;
+  }
+
+  checkPrevious(sourceFlowIndex, targetFlowIndex) {
+    const { propsAPI } = this.props;
+    const curFlowData = propsAPI.save();
+
+    // 生成“图”数据结构
+    let flowGraph = {};
+    if (curFlowData.edges && curFlowData.edges.length > 0) {
+      curFlowData.edges.forEach((edge) => {
+        if (edge.To) {
+          if (!flowGraph[edge.To]) {
+            flowGraph[edge.To] = [edge.From];
+          } else {
+            flowGraph[edge.To].push(edge.From);
+          }
+        }
+      });
+    }
+
+    let result = false;
+    let visited = new Set();
+    const dfs = (n) => {
+      if (n === sourceFlowIndex) {
+        result = true;
+      }
+      visited.add(n);
+      if (flowGraph[n] && flowGraph[n].length > 0) {
+        flowGraph[n].forEach((c) => {
+          if (!visited.has(c)) {
+            dfs(c);
+          }
+        });
+      }
+    };
+    dfs(targetFlowIndex);
     return result;
   }
 
@@ -608,14 +657,14 @@ class Updata extends React.Component {
   };
 
   watchRedoEvent = () => {
-    message.warning('禁止使用回撤操作');
+    message.warning('禁止使用回撤操作！');
 
     // const { propsAPI } = this.props;
     // propsAPI.executeCommand('undo');
   };
 
   watchUndoEvent = () => {
-    message.warning('禁止使用撤销操作');
+    message.warning('禁止使用撤销操作！');
 
     const { propsAPI } = this.props;
     propsAPI.executeCommand('redo');
