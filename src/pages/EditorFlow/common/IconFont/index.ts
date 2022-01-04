@@ -4,7 +4,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 //   scriptUrl: 'https://at.alicdn.com/t/font_1101588_01zniftxm9yp.js',
 // });
 const IconFont = createFromIconfontCN({
-  scriptUrl: '/icon/font_1101588_01zniftxm9yp.js',
+  scriptUrl: './icon/font_1101588_01zniftxm9yp.js',
 });
 
 export default IconFont;
