@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, Timeline, message } from 'antd';
+import { Col, Row, Tabs, Timeline, message, Slider } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
 import axios from 'axios';
 
@@ -69,7 +69,9 @@ const mapDispatchToProps = (dispatch) => {
 class FlowTest extends React.Component {
   constructor(props) {
     super(props);
-    this.keysDown = '';
+    this.state = {
+      sliderSpan: 3,
+    };
   }
 
   // selectNode = (e) => {
@@ -160,6 +162,18 @@ class FlowTest extends React.Component {
     return null;
   };
 
+  changeSlider = () => {
+    if (this.state.sliderSpan !== 7) {
+      this.setState({
+        sliderSpan: 7,
+      });
+    } else {
+      this.setState({
+        sliderSpan: 3,
+      });
+    }
+  };
+
   render() {
     return (
       // <PageContainer
@@ -183,10 +197,10 @@ class FlowTest extends React.Component {
           </Col>
         </Row>
         <Row className={styles.editorBd}>
-          <Col span={4} className={styles.editorSidebar}>
-            <FlowItemPanel />
+          <Col span={this.state.sliderSpan} className={styles.editorSidebar}>
+            <FlowItemPanel onChangeSlider={this.changeSlider} />
           </Col>
-          <Col span={16} className={styles.editorContent}>
+          <Col span={20 - this.state.sliderSpan} className={styles.editorContent}>
             <Row className={styles.editorHd}>
               <Col>
                 <FlowToolbar />

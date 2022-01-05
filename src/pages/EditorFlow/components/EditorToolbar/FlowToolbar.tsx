@@ -20,10 +20,12 @@ const FlowToolbar = () => (
     <Divider type="vertical" />
     {/* <ToolbarButton command="copy" text="复制"/> */}
     {/* <ToolbarButton command="paste" text="粘贴" /> */}
-    <ToolbarButton command="delete" text="删除" />
-    <Divider type="vertical" />
+    {/* <ToolbarButton command="delete" text="删除" />
+    <Divider type="vertical" /> */}
     <ToolbarButton command="toBack" icon="to-back" text="后置" />
     <ToolbarButton command="toFront" icon="to-front" text="前置" />
+    <Divider type="vertical" />
+    <ToolbarButton command="delete" text="删除" />
     <Divider type="vertical" />
     {/* <ToolbarButton command="multiSelect" icon="multi-select" text="多选" />
     <ToolbarButton command="addGroup" icon="group" text="组合" />

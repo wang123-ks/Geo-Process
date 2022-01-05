@@ -84,7 +84,7 @@ class UploadFlow extends React.Component {
           style={{ display: 'none' }}
         />
         <Popconfirm
-          title="是否确认上传流程图文件？上传成功后当前流程图将清空！"
+          title="是否上传xml文件？上传成功后当前已绘制流程图将被覆盖！"
           onConfirm={this.uploadClick}
           okText="是"
           cancelText="否"

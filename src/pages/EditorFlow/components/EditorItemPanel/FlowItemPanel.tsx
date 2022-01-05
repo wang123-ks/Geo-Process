@@ -1,5 +1,5 @@
 import { Item, ItemPanel, withPropsAPI } from 'gg-editor';
-import { Card, Tree } from 'antd';
+import { Card, Tree, Button, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { connect } from 'dva';
@@ -16,6 +16,8 @@ import {
   FolderTwoTone,
   FolderOpenTwoTone,
   TagsTwoTone,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from '@ant-design/icons';
 
 import NodeTypeList from '@/pages/EditorFlow/util/FlowNodeType';
@@ -841,6 +843,15 @@ class FlowItemPanel extends React.Component {
   render() {
     return (
       <ItemPanel className={styles.itemPanel}>
+        <Tooltip title="展开/收起">
+          <Button
+            style={{ float: 'right', zIndex: 2, margin: '3px' }}
+            shape="circle"
+            size="small"
+            icon={<MenuUnfoldOutlined />}
+            onClick={this.props.onChangeSlider}
+          />
+        </Tooltip>
         <div style={{ padding: '3px 0px' }}>
           <Tree
             style={{ height: 833, userSelect: 'none' }}

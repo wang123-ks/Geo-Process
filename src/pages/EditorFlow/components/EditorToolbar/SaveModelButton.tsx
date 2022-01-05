@@ -471,7 +471,8 @@ class Save extends React.Component {
       // this.handleSaveXml(finalXml, 'myFlow.xml', 'text/xml')
       // 方式2：通过file-saver的saveAs保存到本地
       const blob = new Blob([finalXml], { type: 'text/xml' });
-      saveAs(blob, 'myFlow.xml');
+      let saveName = formData.Name ? formData.Name + '.xml' : 'myFlow.xml';
+      saveAs(blob, saveName);
 
       this.setState({ modalVisible: false });
     } else if (way === 'server') {
