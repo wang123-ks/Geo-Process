@@ -28,15 +28,17 @@ const { TreeNode } = Tree;
 const getItem = (shape: string, label: string, nodeType: string, node: object) => {
   let paramsList = [];
 
+  let remark = '';
   if (node) {
     paramsList = node.parameters;
-
     let returnParam = {
       direction: 'Out',
       name: 'return',
       type: node.returnValueType,
     };
     paramsList.push(returnParam);
+
+    remark = node.showTitle;
   }
 
   let curSize = '';
@@ -77,10 +79,11 @@ const getItem = (shape: string, label: string, nodeType: string, node: object) =
         // key_a: key_a,
         NodeType: nodeType,
         paramsList: paramsList,
+        remark: remark,
         xattrs: node,
       }}
     >
-      <span className={styles['panel-type-icon']}>{label}</span>
+      <span className={styles['panel-type-icon']}>{remark || label}</span>
     </Item>
   );
 };
@@ -698,6 +701,10 @@ class FlowItemPanel extends React.Component {
       .get(workflowUrl)
       .then((response) => {
         let libs = response.data.libs;
+        // 排序
+        libs = libs.sort((a, b) => {
+          return a.name.localeCompare(b.name, 'zh-CN');
+        });
         libs.forEach((item) => {
           item.key = '1-' + item.name;
           item.title = item.name;
@@ -791,22 +798,32 @@ class FlowItemPanel extends React.Component {
           let responseList = [];
           if (response.data.jars) {
             responseList = response.data.jars;
+            // 排序
             responseList.forEach((item) => {
               item.key = item.fileId;
-              item.title = item.fileName;
+              item.title = item.remark || item.fileName;
               item.libName = node.libName;
               item.jarName = item.fileName;
               // item.icon = ({ expanded }) => (expanded ? <FolderOpenTwoTone /> : <FolderTwoTone />)
             });
+            responseList = responseList.sort((a, b) => {
+              return a.title.localeCompare(b.title, 'zh-CN');
+            });
           } else if (response.data.classes) {
             responseList = response.data.classes;
+            responseList = responseList.sort((a, b) => {
+              return a.className.localeCompare(b.className, 'zh-CN');
+            });
             responseList.forEach((item) => {
               item.key = item.classId;
-              item.title = item.className;
+              item.title = item.remark || item.className;
               item.libName = node.libName;
               item.jarName = node.jarName;
               item.className = item.className;
               // item.icon = ({ expanded }) => (expanded ? <FolderOpenTwoTone /> : <FolderTwoTone />)
+            });
+            responseList = responseList.sort((a, b) => {
+              return a.title.localeCompare(b.title, 'zh-CN');
             });
           } else if (response.data.methods) {
             responseList = response.data.methods;
@@ -819,12 +836,16 @@ class FlowItemPanel extends React.Component {
               item.className = node.className;
               item.isLeaf = true;
               item.switcherIcon = <TagsTwoTone />;
+              item.showTitle = item.remark || item.functionName;
               item.title = getItem(
                 'flow-capsule',
                 item.functionName,
                 NodeTypeList.METHOD,
                 JSON.parse(JSON.stringify(item)),
               );
+            });
+            responseList = responseList.sort((a, b) => {
+              return a.showTitle.localeCompare(b.showTitle, 'zh-CN');
             });
           }
           let newData = vm.state.treeData;

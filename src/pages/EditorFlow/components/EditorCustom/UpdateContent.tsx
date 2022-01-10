@@ -173,7 +173,7 @@ class Updata extends React.Component {
       let randomGroupId = Math.random().toString(36).substr(2);
       let group = {
         id: randomGroupId,
-        label: model.label,
+        label: model.remark || model.label,
         collapsed: false,
         FlowIndex: FlowIndex,
         isUsedCount: 0,
