@@ -501,11 +501,11 @@ const treeData = [
 ];
 
 const onSelect = (keys, event) => {
-  console.log('Trigger Select', keys, event);
+  // console.log('Trigger Select', keys, event);
 };
 
 const onExpand = (keys, event) => {
-  console.log('Trigger Expand', keys, event);
+  // console.log('Trigger Expand', keys, event);
 };
 
 function updateTreeData(list, key, children) {
@@ -785,7 +785,7 @@ class FlowItemPanel extends React.Component {
 
   onLoadData(node) {
     let vm = this;
-    console.warn('打印node', node);
+    // console.warn('打印node', node);
     return new Promise<void>((resolve) => {
       if (node.children) {
         resolve();

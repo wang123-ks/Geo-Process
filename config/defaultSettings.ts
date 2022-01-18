@@ -16,7 +16,7 @@ const proSettings: DefaultSettings = {
   menu: {
     locale: false,
   },
-  title: 'Ant Design Pro',
+  title: '分布式GP搭建工具',
   pwa: false,
   iconfontUrl: '',
 };

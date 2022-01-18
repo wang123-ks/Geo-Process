@@ -56,7 +56,7 @@ export default [
           //   component: './TableList',
           // },
           {
-            name: 'editorflow',
+            // name: 'editorflow',
             icon: 'smile',
             path: '/editorflow',
             component: './EditorFlow',
