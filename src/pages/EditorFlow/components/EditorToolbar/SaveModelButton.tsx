@@ -122,12 +122,12 @@ class Save extends React.Component {
         } else if (node.NodeType === NodeTypeList.INPUT) {
           // 选择任何一种，都要做些验证
           switch (node.xattrs.SourceType) {
-            case 'Constant':
-              if (!node.xattrs.DataSource) {
-                this.selectErrNode(node.id);
-                result = false;
-              }
-              break;
+            // case 'Constant': // 与桌面端一致，填常量的话不需要输值也可以保存
+            //   if (!node.xattrs.DataSource) {
+            //     this.selectErrNode(node.id);
+            //     result = false;
+            //   }
+            //   break;
             // case "ProcessPara":
             // case "FLSNULL":
             //     break
@@ -136,6 +136,7 @@ class Save extends React.Component {
             case 'PreviousObject':
               if (!node.xattrs.PreviousNode) {
                 this.selectErrNode(node.id);
+                this.selectErrNode(node.parent);
                 result = false;
               }
               break;

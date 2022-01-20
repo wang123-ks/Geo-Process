@@ -2,6 +2,7 @@ import { CanvasMenu, ContextMenu, EdgeMenu, GroupMenu, MultiMenu, NodeMenu } fro
 
 import React from 'react';
 import MenuItem from './MenuItem';
+import AddLine from './addLineContextMenu';
 import styles from './index.less';
 
 const FlowContextMenu = () => (
@@ -9,6 +10,8 @@ const FlowContextMenu = () => (
     <NodeMenu>
       {/* <MenuItem command="copy" /> */}
       <MenuItem command="delete" />
+      <AddLine type="begin" />
+      <AddLine type="end" />
     </NodeMenu>
     <EdgeMenu>
       <MenuItem command="delete" />

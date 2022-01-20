@@ -326,9 +326,18 @@ class Updata extends React.Component {
     }
 
     // 若符合规则，则将连线详情记录下来
+    this.writeLineInfo(model);
+  };
+
+  writeLineInfo = (model) => {
+    const { propsAPI } = this.props;
+    const curFlowData = propsAPI.save();
+    const sourceNode = propsAPI.find(model.source);
+    const targetNode = propsAPI.find(model.target);
+    // 若符合规则，则将连线详情记录下来
     let newModel = targetNode.model;
     if (newModel.xattrs && newModel.NodeType !== NodeTypeList.METHOD) {
-      // 流程节点相关的连线不在这里记录
+      // 某某来源相关的连线在这里记录
       let PreviousNode = sourceNode.model.ParamIndex
         ? sourceNode.model.FlowIndex + '-' + sourceNode.model.ParamIndex
         : sourceNode.model.FlowIndex;
@@ -374,6 +383,45 @@ class Updata extends React.Component {
       newLine.color = '#EC3D3D';
       propsAPI.update(model.id, newLine);
     }
+  };
+
+  autoAddLine = (model) => {
+    // console.warn('成功获取到自动连线的项', model);
+    if (!model) return;
+
+    const { propsAPI } = this.props;
+    const curFlowData = propsAPI.save();
+    // console.warn('当前项', curFlowData); // 获取当前项
+
+    const sourceNode = propsAPI.find(model.source);
+    const targetNode = propsAPI.find(model.target);
+
+    // 检查是否可连，若可连则继续，否则撤销该操作
+    let canAddLine = this.checkLine(sourceNode, targetNode);
+    if (!canAddLine.flag) {
+      message.warning(canAddLine.msg);
+      return;
+    }
+
+    // 检查是否有重复线
+    let edges = curFlowData.edges;
+    if (edges && edges.length > 0) {
+      for (let i = 0; i < edges.length; i++) {
+        if (model.source === edges[i].source && model.target === edges[i].target) {
+          message.warning('禁止重复连线');
+          return;
+        }
+      }
+    }
+
+    // 检查通过后，增加该连线
+    let newFlowData = curFlowData;
+    if (!newFlowData.edges) newFlowData.edges = [];
+    newFlowData.edges.push(model);
+    propsAPI.read(newFlowData);
+
+    // 将连线有关信息记录下来
+    this.writeLineInfo(model);
   };
 
   checkDupStartEnd(model) {

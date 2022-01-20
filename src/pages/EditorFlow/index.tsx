@@ -27,10 +27,13 @@ const mapStateToProps = (state) => {
   const paramsList = state[namespace].data;
   const processList = state[namespaceProcess];
   const tabsActive = state['tabsActive'].active;
+  const addLineState = state['addLine'];
+
   return {
     paramsList,
     processList,
     tabsActive,
+    addLineState,
   };
 };
 
@@ -62,6 +65,13 @@ const mapDispatchToProps = (dispatch) => {
         payload: active,
       });
     },
+    handleAddLineChange: (state) => {
+      const action = {
+        type: 'addLine/changeAddLine',
+        payload: state,
+      };
+      dispatch(action);
+    },
   };
 };
 
@@ -78,12 +88,54 @@ class FlowTest extends React.Component {
   //   console.warn('选择节点', e.item.model)
   // };
   handleNodeSelect(e: any) {
-    console.warn('单选', e, e.item.model);
-    // let needInput = e.item.model
+    console.warn('单选', e, e.item.model, e._type);
     this.props.changeShow(false);
     this.props.selectNode(e);
     // this.props.modifyTabsActive('paramsInput');
     // console.warn('这是', this.props.processList);
+
+    // console.warn('打印dva3', JSON.stringify(this.props.addLineState), this.props.addLineState.type)
+    if (this.props.addLineState.data.isPedding === true) {
+      let addLineState = this.props.addLineState.data;
+      let addLine = {
+        id: Math.random().toString(36).substr(2),
+      };
+      if (addLineState.type === 'begin') {
+        addLine.source = addLineState.firstNodeId;
+        addLine.target = e.item.model.id;
+      } else if (addLineState.type === 'end') {
+        addLine.source = e.item.model.id;
+        addLine.target = addLineState.firstNodeId;
+      } else {
+        addLine = undefined;
+      }
+      if (this.updateContent) {
+        // 自动连线的相关操作
+        this.updateContent.autoAddLine(addLine);
+      }
+
+      // 重新初始化
+      let state = {
+        isPedding: false,
+        type: 'begin',
+        firstNodeId: '',
+      };
+      this.props.handleAddLineChange(state);
+    }
+  }
+
+  handleClick(e: any) {
+    setTimeout(() => {
+      if (e._type !== 'node:click') {
+        // 重新初始化
+        let state = {
+          isPedding: false,
+          type: 'begin',
+          firstNodeId: '',
+        };
+        this.props.handleAddLineChange(state);
+      }
+    }, 0);
   }
 
   handleBeforeCommandExecute(event: any) {
@@ -99,7 +151,7 @@ class FlowTest extends React.Component {
     if (event.command.name === 'add' && event.command.type === 'node') {
       if (this.updateContent) {
         console.warn('当前操作（before）', event);
-        // 禁止重复连线
+        // 禁止多个开始/结束节点
         this.updateContent.checkDupStartEnd(event.command.addModel);
       }
     }
@@ -119,7 +171,7 @@ class FlowTest extends React.Component {
       }
     }
     if (event.command.name === 'add' && event.command.type === 'edge') {
-      // console.warn('拖动添加节点测试', event.command.addModel);
+      console.warn('拖动添加节点测试', JSON.stringify(event.command.addModel));
       if (this.updateContent) {
         this.updateContent.modifyAddLine(event.command.addModel);
       }
@@ -214,6 +266,21 @@ class FlowTest extends React.Component {
               onNodeClick={(e: any) => {
                 this.handleNodeSelect(e);
               }}
+              onClick={(e) => {
+                this.handleClick(e);
+              }} // 点击画布
+              onEdgeClick={(e) => {
+                this.handleClick(e);
+              }} // 点击边线
+              onGroupClick={(e) => {
+                this.handleClick(e);
+              }} // 点击群组
+              onGuideClick={(e) => {
+                this.handleClick(e);
+              }} // 点击导引
+              onAnchorClick={(e) => {
+                this.handleClick(e);
+              }} // 点击锚点
               onKeyDown={(event) => {
                 this.handleKeyDown(event);
               }}
