@@ -159,6 +159,12 @@ class Updata extends React.Component {
     if (!newFlowData.edges) newFlowData.edges = [];
     if (!newFlowData.groups) newFlowData.groups = [];
 
+    if (newFlowData.groups && newFlowData.groups.length > 0) {
+      newFlowData.groups.forEach((group) => {
+        group.collapsed = false;
+      });
+    }
+
     // 添加输入输出节点并连线
     if (model.paramsList && model.paramsList.length > 0) {
       // 规则：n个输入、1个输出
