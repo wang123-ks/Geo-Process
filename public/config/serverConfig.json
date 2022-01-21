@@ -1,4 +1,0 @@
-{
-    "methodTreeBaseUrl": "http://192.168.199.71:8089/igs/rest/services/system/ResourceServer/workflows/functionHub",
-    "uploadXmlUrl": "http://192.168.83.146:8089/manager/api/service/workflow/publish"
-}

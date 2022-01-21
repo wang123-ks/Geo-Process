@@ -16,6 +16,7 @@ import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
+import SetConfig from '@/components/GlobalHeader/SetConfig';
 import type { ConnectState } from '@/models/connect';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
@@ -171,7 +172,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return null;
       }}
       menuDataRender={menuDataRender}
-      headerContentRender={() => <RightContent />}
+      headerContentRender={() => (
+        <div>
+          <RightContent />
+          <SetConfig />
+        </div>
+      )}
       postMenuData={(menuData) => {
         menuDataRef.current = menuData || [];
         return menuData || [];

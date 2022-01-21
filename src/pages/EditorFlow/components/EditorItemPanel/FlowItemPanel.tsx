@@ -555,7 +555,7 @@ class FlowItemPanel extends React.Component {
   }
 
   componentDidMount() {
-    this.getBaseUrl();
+    this.initTree();
     this.parseUrl();
   }
 
@@ -593,25 +593,12 @@ class FlowItemPanel extends React.Component {
     }
   }
 
-  getBaseUrl() {
-    const vm = this;
-    axios('./config/serverConfig.json')
-      .then((res) => {
-        // console.warn('结果', res)
-        let baseUrl = res.data.methodTreeBaseUrl;
-        vm.setState({
-          baseUrl: baseUrl,
-        });
-        this.initTree();
-      })
-      .catch((err) => {
-        console.warn('错误', err);
-      });
-  }
-
   getWorkflowUrl = (node) => {
-    // let baseUrl = 'http://192.168.199.71:8089/igs/rest/services/system/ResourceServer/workflows/functionHub'
-    let baseUrl = this.state.baseUrl;
+    let treeBaseUrl =
+      window.localStorage.getItem('methodTreeBaseUrl') ||
+      'http://192.168.199.71:8089/igs/rest/services/system/ResourceServer/workflows/functionHub';
+
+    let baseUrl = treeBaseUrl;
 
     let param = '?f=json';
 

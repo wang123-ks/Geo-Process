@@ -52,24 +52,7 @@ class Save extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getUploadUrl();
-  }
-
-  getUploadUrl() {
-    const vm = this;
-    axios('./config/serverConfig.json')
-      .then((res) => {
-        // console.warn('结果', res)
-        let uploadUrl = res.data.uploadXmlUrl;
-        vm.setState({
-          uploadUrl: uploadUrl,
-        });
-      })
-      .catch((err) => {
-        console.warn('错误', err);
-      });
-  }
+  componentDidMount() {}
 
   handleSaveLocal = () => {
     let flag = this.handleSaveVerify();
@@ -478,7 +461,9 @@ class Save extends React.Component {
       this.setState({ modalVisible: false });
     } else if (way === 'server') {
       // 保存至igs
-      let uploadUrl = this.state.uploadUrl;
+      let uploadUrl =
+        window.localStorage.getItem('uploadXmlUrl') ||
+        'http://192.168.83.146:8089/manager/api/service/workflow/publish';
 
       let uploadFormData = new FormData();
       uploadFormData.append('workflowNo', formData.Id);
