@@ -209,7 +209,7 @@ class Updata extends React.Component {
         FlowIndex: FlowIndex,
         systemCreate: true,
         xattrs: {
-          FuntionObjSourceType: 'CreateNew',
+          FuntionObjSourceType: 'Default',
           PreviousNode: '',
         },
       };

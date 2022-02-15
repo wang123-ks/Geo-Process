@@ -45,7 +45,6 @@ class SetConfig extends React.Component {
         uploadXmlUrl,
       },
     });
-    console.warn('正在设置中');
   };
   openSetIp = () => {
     this.setState({

@@ -122,9 +122,13 @@ export const xmlFlow2Web = (content, propsAPI) => {
         if (TOOL.$.Name.length > 15) {
           nodeLabelTooLong = 50;
         }
-        let FuntionObjSourceType = 'CreateNew';
+        let FuntionObjSourceType = 'Default';
         let PreviousNode = '';
         switch (TOOL.$.FuntionObjSourceType) {
+          case 'Default':
+          case 'CreateNew':
+            FuntionObjSourceType = TOOL.$.FuntionObjSourceType;
+            break;
           case 'PreviousCallCreateObject':
             FuntionObjSourceType = TOOL.$.FuntionObjSourceType;
             PreviousNode = TOOL.$.ObjSourceActID;
@@ -323,8 +327,8 @@ export const xmlFlow2Web = (content, propsAPI) => {
         // sourceAnchor: 1,
         target: NodeIdListMap.get(item.$.To + '-' + NodeTypeList.METHOD),
         // targetAnchor: 3,
-        From: item.$.From,
-        To: item.$.To,
+        From: parseInt(item.$.From),
+        To: parseInt(item.$.To),
         color: '#0573E9',
       };
       newFlowData.edges.push(edge);

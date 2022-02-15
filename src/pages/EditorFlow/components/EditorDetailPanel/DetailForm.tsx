@@ -271,6 +271,7 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
         <Item label="功能对象来源方式：" name="FuntionObjSourceType" {...inlineFormItemLayout}>
           {/* <Select onChange={(value) => this.handleFieldChange({ xattrs:{ ...Node.xattrs, ...{FuntionObjSourceType: value}}})}> */}
           <Select onChange={(value) => this.handleObjSourceTypeChange(value)}>
+            <Option value="Default">默认方式</Option>
             <Option value="CreateNew">新创建对象</Option>
             <Option value="PreviousCallCreateObject">指定前流程创建的对象</Option>
             <Option value="PreviousCallReturnObject">指定前流程的返回值对象</Option>
@@ -336,7 +337,7 @@ class DetailForm extends React.Component<DetailFormProps, DetailFormState> {
         {SourceType === 'Constant' && (
           <div>
             <Divider />
-            <Item label="* 参数值（必填）：" name="DataSource" {...inlineFormItemLayout}>
+            <Item label="参数值（建议填写）：" name="DataSource" {...inlineFormItemLayout}>
               <Input onBlur={this.handleXattrsInputBlur('DataSource', Node.xattrs)} />
             </Item>
           </div>

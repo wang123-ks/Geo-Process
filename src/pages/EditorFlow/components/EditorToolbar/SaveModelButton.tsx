@@ -98,7 +98,11 @@ class Save extends React.Component {
       curFlowData.nodes.forEach((node) => {
         if (node.NodeType === NodeTypeList.OBJECT) {
           // 选择非创建的话，则验证某一项
-          if (node.xattrs.FuntionObjSourceType !== 'CreateNew' && !node.xattrs.PreviousNode) {
+          if (
+            node.xattrs.FuntionObjSourceType !== 'Default' &&
+            node.xattrs.FuntionObjSourceType !== 'CreateNew' &&
+            !node.xattrs.PreviousNode
+          ) {
             this.selectErrNode(node.id);
             result = false;
           }
