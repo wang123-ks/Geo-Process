@@ -32,6 +32,7 @@ export const xmlFlow2Web = (content, propsAPI) => {
 
   if (WorkFlowProcess && WorkFlowProcess.FormalParameters) {
     if (
+      // 检测是否为对象，对象需要改为数组
       Object.prototype.toString.call(WorkFlowProcess.FormalParameters.FormalParameter) ===
       '[object Object]'
     ) {
@@ -46,6 +47,10 @@ export const xmlFlow2Web = (content, propsAPI) => {
     // console.warn('生成全局参数Map', FormalParameterMap);
   }
   if (WorkFlowProcess && WorkFlowProcess.Activities) {
+    if (WorkFlowProcess.Activities.Activitie instanceof Array === false) {
+      // 检测是否为对象，对象需要改为数组
+      WorkFlowProcess.Activities.Activitie = [WorkFlowProcess.Activities.Activitie];
+    }
     WorkFlowProcess.Activities.Activitie.forEach((item) => {
       let xPos;
       let yPos;
@@ -185,6 +190,7 @@ export const xmlFlow2Web = (content, propsAPI) => {
         // 输入输出节点
         let ActualParameter = TOOL.ActualParameters.ActualParameter;
         if (ActualParameter instanceof Array === false) {
+          // 检测是否为对象，对象需要改为数组
           ActualParameter = [ActualParameter];
         }
         let initInputY = yPos - ActualParameter.length * 25;
