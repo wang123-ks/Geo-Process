@@ -184,6 +184,9 @@ export const xmlFlow2Web = (content, propsAPI) => {
 
         // 输入输出节点
         let ActualParameter = TOOL.ActualParameters.ActualParameter;
+        if (ActualParameter instanceof Array === false) {
+          ActualParameter = [ActualParameter];
+        }
         let initInputY = yPos - ActualParameter.length * 25;
         let initOutputY = yPos;
         for (let i = 0; i < ActualParameter.length; i++) {
