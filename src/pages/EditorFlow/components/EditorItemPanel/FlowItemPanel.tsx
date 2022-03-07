@@ -617,157 +617,73 @@ class FlowItemPanel extends React.Component {
   initTree() {
     let vm = this;
     let workflowUrl = this.getWorkflowUrl({});
-    // let treeData = [
-    //   {
-    //     title: '起始节点',
-    //     key: '0',
-    //     // icon: <HomeTwoTone />,
-    //     children: [
-    //       {
-    //         title: getItem('flow-circle', '开始', NodeTypeList.START),
-    //         key: '0-0',
-    //         switcherIcon: <TagsTwoTone />,
-    //       },
-    //       {
-    //         title: getItem('flow-circle', '结束', NodeTypeList.END),
-    //         key: '0-1',
-    //         switcherIcon: <TagsTwoTone />,
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     title: '前端自定义',
-    //     key: '2',
-    //     // icon: <HomeTwoTone />,
-    //     children: [
-    //       {
-    //         title: getItem('flow-capsule', 'ShiftInfo', NodeTypeList.METHOD, {
-    //           functionId: "0431520E21E6E3043E5E8C8C2DDE05E5",
-    //           functionName: "ShiftInfo",
-    //           parameters: [
-    //             {name: "xCellSize", type: "double", direction: "In"},
-    //             {name: "yCellSize", type: "double", direction: "In"},
-    //             {name: "xMin", type: "double", direction: "In"},
-    //             {name: "yMin", type: "double", direction: "In"}
-    //           ],
-    //           returnValueType: "ShiftInfo",
-    //           // FuntionObjSourceType: 'CreateNew'
-    //         }),
-    //         key: '2-0',
-    //         switcherIcon: <TagsTwoTone />,
-    //       },
-    //       {
-    //         title: getItem('flow-capsule', 'projectTransXClsByName', NodeTypeList.METHOD, {
-    //           functionId: "299519C14B37F053C2B85F03CBECEDC6",
-    //           functionName: "projectTransXClsByName",
-    //           parameters: [
-    //             {name: "clsName", type: "String", direction: "In"},
-    //             {name: "desClsName", type: "String", direction: "In"},
-    //             {name: "crsName", type: "String", direction: "In"}
-    //           ],
-    //           returnValueType: "String",
-    //           // FuntionObjSourceType: 'CreateNew'
-    //         }),
-    //         key: '2-1',
-    //         switcherIcon: <TagsTwoTone />,
-    //       },
-    //     ],
-    //   },
-    //   // {
-    //   //   title: '算子节点',
-    //   //   key: '1',
-    //   //   // icon: <BulbTwoTone />,
-    //   //   children: libs
-    //   // }
-    // ]
-
-    // vm.setState({
-    //   treeData: treeData
-    // });
-    axios
-      .get(workflowUrl)
-      .then((response) => {
-        let libs = response.data.libs;
-        // 排序
-        libs = libs.sort((a, b) => {
-          return a.name.localeCompare(b.name, 'zh-CN');
-        });
-        libs.forEach((item) => {
-          item.key = '1-' + item.name;
-          item.title = item.name;
-          item.libName = item.name;
-          // item.icon = ({ expanded }) => (expanded ? <FolderOpenTwoTone /> : <FolderTwoTone />)
-        });
-
-        let treeData = [
+    let treeData = [
+      {
+        title: '起始节点',
+        key: '0',
+        // icon: <HomeTwoTone />,
+        children: [
           {
-            title: '起始节点',
-            key: '0',
-            // icon: <HomeTwoTone />,
-            children: [
-              {
-                title: getItem('flow-circle', '开始节点', NodeTypeList.START),
-                key: '0-0',
-                switcherIcon: <TagsTwoTone />,
-              },
-              {
-                title: getItem('flow-circle', '结束节点', NodeTypeList.END),
-                key: '0-1',
-                switcherIcon: <TagsTwoTone />,
-              },
-            ],
+            title: getItem('flow-circle', '开始', NodeTypeList.START),
+            key: '0-0',
+            switcherIcon: <TagsTwoTone />,
           },
           {
-            title: '前端自定义',
-            key: '2',
-            // icon: <HomeTwoTone />,
-            children: [
-              {
-                title: getItem('flow-capsule', 'ShiftInfo', NodeTypeList.METHOD, {
-                  functionId: '0431520E21E6E3043E5E8C8C2DDE05E5',
-                  functionName: 'ShiftInfo',
-                  parameters: [
-                    { name: 'xCellSize', type: 'double', direction: 'In' },
-                    { name: 'yCellSize', type: 'double', direction: 'In' },
-                    { name: 'xMin', type: 'double', direction: 'In' },
-                    { name: 'yMin', type: 'double', direction: 'In' },
-                  ],
-                  returnValueType: 'ShiftInfo',
-                }),
-                key: '2-0',
-                switcherIcon: <TagsTwoTone />,
-              },
-              {
-                title: getItem('flow-capsule', 'projectTransXClsByName', NodeTypeList.METHOD, {
-                  functionId: '299519C14B37F053C2B85F03CBECEDC6',
-                  functionName: 'projectTransXClsByName',
-                  parameters: [
-                    { name: 'clsName', type: 'String', direction: 'In' },
-                    { name: 'desClsName', type: 'String', direction: 'In' },
-                    { name: 'crsName', type: 'String', direction: 'In' },
-                  ],
-                  returnValueType: 'String',
-                }),
-                key: '2-1',
-                switcherIcon: <TagsTwoTone />,
-              },
-            ],
+            title: getItem('flow-circle', '结束', NodeTypeList.END),
+            key: '0-1',
+            switcherIcon: <TagsTwoTone />,
+          },
+        ],
+      },
+      {
+        title: '示例算子',
+        key: '2',
+        // icon: <HomeTwoTone />,
+        children: [
+          {
+            title: getItem('flow-capsule', 'ShiftInfo', NodeTypeList.METHOD, {
+              functionId: '0431520E21E6E3043E5E8C8C2DDE05E5',
+              functionName: 'ShiftInfo',
+              parameters: [
+                { name: 'xCellSize', type: 'double', direction: 'In' },
+                { name: 'yCellSize', type: 'double', direction: 'In' },
+                { name: 'xMin', type: 'double', direction: 'In' },
+                { name: 'yMin', type: 'double', direction: 'In' },
+              ],
+              returnValueType: 'ShiftInfo',
+              // FuntionObjSourceType: 'CreateNew'
+            }),
+            key: '2-0',
+            switcherIcon: <TagsTwoTone />,
           },
           {
-            title: '算子节点',
-            key: '1',
-            // icon: <BulbTwoTone />,
-            children: libs,
+            title: getItem('flow-capsule', 'projectTransXClsByName', NodeTypeList.METHOD, {
+              functionId: '299519C14B37F053C2B85F03CBECEDC6',
+              functionName: 'projectTransXClsByName',
+              parameters: [
+                { name: 'clsName', type: 'String', direction: 'In' },
+                { name: 'desClsName', type: 'String', direction: 'In' },
+                { name: 'crsName', type: 'String', direction: 'In' },
+              ],
+              returnValueType: 'String',
+              // FuntionObjSourceType: 'CreateNew'
+            }),
+            key: '2-1',
+            switcherIcon: <TagsTwoTone />,
           },
-        ];
+        ],
+      },
+      // {
+      //   title: '算子节点',
+      //   key: '1',
+      //   // icon: <BulbTwoTone />,
+      //   children: libs
+      // }
+    ];
 
-        vm.setState({
-          treeData: treeData,
-        });
-      })
-      .catch((error) => {
-        console.warn('报错', error);
-      });
+    vm.setState({
+      treeData: treeData,
+    });
   }
 
   onLoadData(node) {
@@ -851,7 +767,7 @@ class FlowItemPanel extends React.Component {
   render() {
     return (
       <ItemPanel className={styles.itemPanel}>
-        <Tooltip title="展开/收起">
+        {/* <Tooltip title="展开/收起">
           <Button
             style={{ float: 'right', zIndex: 2, margin: '3px' }}
             shape="circle"
@@ -859,11 +775,11 @@ class FlowItemPanel extends React.Component {
             icon={<MenuUnfoldOutlined />}
             onClick={this.props.onChangeSlider}
           />
-        </Tooltip>
+        </Tooltip> */}
         <div style={{ padding: '3px 0px' }}>
           <Tree
-            style={{ height: 833, userSelect: 'none' }}
-            height={833}
+            style={{ userSelect: 'none', backgroundColor: '#fafafa' }}
+            height={600}
             showLine
             showIcon
             blockNode

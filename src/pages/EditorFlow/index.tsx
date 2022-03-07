@@ -298,7 +298,7 @@ class FlowTest extends React.Component {
               <TabPane tab="参数设置" key="paramsInput">
                 <FlowDetailPanel />
               </TabPane>
-              <TabPane tab="执行详情" key="taskInfo">
+              <TabPane tab="执行详情" key="taskInfo" disabled={true}>
                 {this.props.processList.data.length > 0 && (
                   <div style={{ padding: 12, height: 780, overflow: 'auto', overflowX: 'hidden' }}>
                     <Timeline
